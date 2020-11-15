@@ -1,0 +1,118 @@
+---
+title: "Hunting Licenses"
+author: "Robert Wiederstein"
+date: "11/14/2020"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    number_sections: true
+    theme: readable
+    highlight: pygments
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Question
+
+Hunting as a pastime is declining in the United States. Its prolonged slump and projected decline is significant because revenues from the sale of licenses and tags, as well as excise taxes, support wildlife conservation efforts.   This "user-play, user-pay" funding system for conservation has been modeled around the world and is in jeopardy as hunting declines.  [@rott] The question for consideration is whether the issuance of hunting licenses declined from 2000 to 2020 and, if so, which states showed the greatest declines.
+
+# Background
+
+According to an article in Outdoor Life, hunting reached its peak in 1982 when nearly 17 million hunters purchased 28.3 million licenses. Additionally, persons born between the years 1946 and 1964, commonly referred to as the "Baby Boomers", are the largest cohort of hunters and will age out of the sport in the next 15 years.  The decline was acknowledged and projected to continue in Wisconsin deer hunters through 2030. [@winkler] 
+
+Every five years the National Survey of Fishing, Hunting and Wildlife Associated Recreation is conducted.  The last survey in 2016 found that "11.5 million people 16 years and older enjoyed hunting a variety of animals within the United States. They hunted 184 million days and took 147 million trips. Hunting expenditures totaled $26.2 billion."  The survey reported that the national participation rate was four percent with significant regional variation. For example, the New England region had a two percent participation rate while the East South Central region had an eight percent participation rate.
+
+<center>
+
+![2016 National Survey of Fishing, Hunting, and Wildlife-Associated Recreation, showing regional variation in hunting participation rates.](./img/2016_fish_wildlife_report.png){#id .class width=75% height=75%}
+
+</center>
+
+Various explanations for the decline in hunting have been tendered. Researchers found evidence that more people opt for electronic entertainment and urban living as explainations for the decline in hunting. [@Robison]
+
+# Data Sources
+
+Data was retrieved from two sources: the U.S. Fish and Wildlife Agency and the U.S. Census Bureau.
+
+## U.S. Fish and Wildlife
+
+States require a hunting license for those harvesting game.  People who engage in hunting within the boundaries of the state they reside in require a "resident" hunting license whereas those who travel to another state require a "non-resident" license. A proxy for the popularity of the pastime is the number of hunting licenses issued by the states. The U.S. Fish and Wildlife tracks the issuance of hunting, and fishing, licenses.  
+
+Data is available via their [website](https://www.fws.gov/wsfrprograms/Subpages/LicenseInfo/Hunting.htm). Hunting license information is collected annually from (1) state, (2) territory and (3) insular areas license certifications. The data is available for the years 1963 - 2020 though it is in a pdf format.
+
+## U.S. Census Bureau
+
+# Methodology
+
+The effort used a statistical programming language known as "R". [@R-base]
+
+```{r session_info, echo=FALSE}
+sessionInfo()
+```
+
+```{r dataframe_info}
+file <- "./data_tidy/hunting_licenses_by_state_2000_and_2020.csv"
+df <- read.csv(file = file, header = T, colClasses = "character")
+str(df)
+```
+
+```{r table_01}
+knitr::kable(head(mtcars[, 1:4]), "pipe")
+
+```
+
+```{r table_02}
+knitr::kable(head(mtcars[, 1:4]), "simple")
+```
+
+```{r table_03}
+iris2 <- head(iris)
+knitr::kable(iris2, col.names = gsub("[.]", " ", names(iris)))
+```
+
+```{r table_04}
+# left, center, center, right, right
+knitr::kable(iris2, 
+             align = "lccrr",
+             caption = "An example of table caption")
+```
+
+```{r table_05}
+knitr::kable(iris2, caption = "An example table caption.")
+```
+
+```{r}
+library(knitr)
+library(kableExtra)
+kable(iris[1:5, ]) %>%
+  kable_styling(latex_options = "striped")
+```
+
+
+
+# Conclusions
+
+Hunting license issuance among the states for the 2000 to 2020 years declined.  This conclusion is identical to other studies using the U.S. Fish and Wildlife survey data. Possible explanations in the decline in hunting include the aging of the U.S. population, the continued migration from rural to urban settings. [@Mehmood]
+
+
+
+
+# Resources
+
+[Krebs, Natalie, Why We Suck at Recruiting New Hunters, Why It Matters, and How You Can Fix It, Outdoor Life (2019).](https://www.outdoorlife.com/why-we-are-losing-hunters-and-how-to-fix-it/)
+
+[U.S. Department of the Interior, U.S. Fish and Wildlife Service, and U.S. Department of Commerce, U.S. Census Bureau. 2016 National Survey of Fishing, Hunting, and Wildlife-Associated Recreation.](https://www.census.gov/content/dam/Census/library/publications/2018/demo/fhw16-nat.pdf)
+
+[Wildlife Management Institute](https://wildlifemanagement.institute).
+
+[Association of Fish and Wildlife Agencies.](https://www.fishwildlife.org)
+
+Sayeed Mehmood, Daowei Zhang & James Armstrong (2003) Factors Associated with Declining Hunting License Sales in Alabama, Human Dimensions of Wildlife, 8:4, 243-262, DOI: [10.1080/716100423](https://www.tandfonline.com/doi/abs/10.1080/716100423)
+
+# Bibliography
+
