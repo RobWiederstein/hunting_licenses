@@ -111,6 +111,10 @@ States require a hunting license for those harvesting game.  People who engage i
 According to their [website](https://www.nhgis.org/about), "the IPUMS National Historical Geographic Information System (NHGIS) provides free online access to summary statistics and GIS files for U.S. censuses and other nationwide surveys from 1790 through the present." [@gorayIPUMSNHGIS2016].  The total population data by state was needed for the years studied so that a per capita computation could be made.[@mansonIPUMSNationalHistorical2020]
 NHGIS is one of several IPUMS data integration projects located  with the Minnesota Population Center at the Institute for Social Research & Data Innovation at the University of Minnesota. [@gorayIPUMSNHGIS2016].
 
+## National Survey FHWAR
+
+The National Survey of Fishing, Hunting, & Wildlife-Associated Recreation (FHWAR)  reports result from interviews with U.S. residents about their fishing, hunting, and wildlife watching. The survey has been taken every five years since 1955 and potentially provides a rich and insightful look into hunting trends. Its duration exceeds that of the hunting license data that began in 1963.  [@u.s.departmentoftheinterior2016NationalSurvey] The agency describes its survey as "one of the oldest and most comprehensive continuing recreation surveys."[@u.s.departmentoftheinterior2016NationalSurvey]  The 2016 survey--the latest available, 3,931 anglers and hunters and 3,997 wildlife watchers were interviewed. [@u.s.departmentoftheinterior2016NationalSurvey](U.S. Department of the Interior et al :9)  The report was explicit that the sample size was large enough for a national conclusion, but was silent on its insight at the state-level. "The 2016 Survey's questions and methodology were similar to those used in the 2011, 2006, 2001, 1996, and 1991 Surveys. Therefore, the estimates are comparable." [@u.s.departmentoftheinterior2016NationalSurvey].
+
 # Methodology
 
 The effort used a statistical programming language known as "R". [@R-base]
