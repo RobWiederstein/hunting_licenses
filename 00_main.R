@@ -21,6 +21,25 @@ compute_pct_change_hunting_licenses_from_2000_to_2020 <- function(){
             colnames(df.00) <- my_col_names
             df.00
          }
+         get_hunters_license_1970_fw <- function(){
+            file <- "./data_pure/usfw/tabula-2020-11-18-fw_hunting_licenses_1970.csv"
+            df.00 <- read.csv(file = file, as.is = T, header = F)
+            df.00[, 2:ncol(df.00)] <- apply(df.00[, 2:ncol(df.00)], 2, function(x){gsub(",| |\\$", "", x)})
+            df.00[, 2:ncol(df.00)] <- apply(df.00[, 2:ncol(df.00)], 2, function(x){as.numeric(x)})
+            #add var names
+            my_col_names <- c(
+               "state",
+               "certified_paid_hunting_license_holders_1970",
+               "resident_hunting_licenses_tags_permits_stamps_1970",
+               "non-resident_hunting_licenses_tags_permits_stamps_1970",
+               "total_hunting_licenses_tags_permits_stamps_1970",
+               "gross_cost_to_resident_hunters_1970",
+               "gross_cost_to_non-resident_hunters_1970",
+               "total_gross_cost_to_hunters_1970"
+            )
+            colnames(df.00) <- my_col_names
+            df.00
+         }
          get_hunters_license_1980_fw <- function(){
             file <- "./data_pure/usfw/tabula-2020-11-17-fw_hunting_licenses_1980.csv"
             df.00 <- read.csv(file = file, as.is = T, header = F)
@@ -36,6 +55,25 @@ compute_pct_change_hunting_licenses_from_2000_to_2020 <- function(){
                "gross_cost_to_resident_hunters_1980",
                "gross_cost_to_non-resident_hunters_1980",
                "total_gross_cost_to_hunters_1980"
+            )
+            colnames(df.00) <- my_col_names
+            df.00
+         }
+         get_hunters_license_1990_fw <- function(){
+            file <- "./data_pure/usfw/tabula-2020-11-18-fw_hunting_licenses_1990.csv"
+            df.00 <- read.csv(file = file, as.is = T, header = F)
+            df.00[, 2:ncol(df.00)] <- apply(df.00[, 2:ncol(df.00)], 2, function(x){gsub(",| |\\$", "", x)})
+            df.00[, 2:ncol(df.00)] <- apply(df.00[, 2:ncol(df.00)], 2, function(x){as.numeric(x)})
+            #add var names
+            my_col_names <- c(
+               "state",
+               "certified_paid_hunting_license_holders_1990",
+               "resident_hunting_licenses_tags_permits_stamps_1990",
+               "non-resident_hunting_licenses_tags_permits_stamps_1990",
+               "total_hunting_licenses_tags_permits_stamps_1990",
+               "gross_cost_to_resident_hunters_1990",
+               "gross_cost_to_non-resident_hunters_1990",
+               "total_gross_cost_to_hunters_1990"
             )
             colnames(df.00) <- my_col_names
             df.00
@@ -59,7 +97,32 @@ compute_pct_change_hunting_licenses_from_2000_to_2020 <- function(){
             )
             colnames(df.01) <- my_col_names
             df.01
-      }
+         }
+         get_hunters_license_2010_fw <- function(){
+            file <- "./data_pure/usfw/tabula-2020-11-18-fw_hunting_licenses_2010.csv"
+            df.00 <- read.csv(file = file, as.is = T, header = F)
+            #there's only six columns/variables in this year
+            df.00 <- df.00[-grep("AS|DC|GU|MP|PR|VI|Total:", df.00$V1), ] #omit territories
+            df.00[, 2:ncol(df.00)] <- apply(df.00[, 2:ncol(df.00)], 2, function(x){gsub(",| |\\$", "", x)})
+            df.00[, 2:ncol(df.00)] <- apply(df.00[, 2:ncol(df.00)], 2, function(x){as.numeric(x)})
+            #add var names
+            my_col_names <- c(
+               "state",
+               "certified_paid_hunting_license_holders_2010",
+               "resident_hunting_licenses_tags_permits_stamps_2010",
+               "non-resident_hunting_licenses_tags_permits_stamps_2010",
+               "total_hunting_licenses_tags_permits_stamps_2010",
+               #"gross_cost_to_resident_hunters_2010",
+               #"gross_cost_to_non-resident_hunters_2010",
+               "total_gross_cost_to_hunters_2010"
+            )
+            colnames(df.00) <- my_col_names
+            #state names
+            df.states <- data.frame(state = state.name, abb = state.abb, stringsAsFactors = F)
+            colnames(df.00)[1] <- "abb"
+            df.00 <- merge(df.00, df.states)
+            df.00
+         }
          get_hunters_license_2020_fw <- function(){
             file <- "./data_pure/usfw/tabula-2020-11-08_fw_hunting_licenses_2020.csv"
             df.00 <- read.csv(file = file, as.is = T, header = T)
@@ -87,8 +150,11 @@ compute_pct_change_hunting_licenses_from_2000_to_2020 <- function(){
          
          #add additional years to list
          my_list_df <- list(get_hunters_license_1960_fw(),
+                            get_hunters_license_1970_fw(),
                             get_hunters_license_1980_fw(),
+                            get_hunters_license_1990_fw(),
                             get_hunters_license_2000_fw(),
+                            get_hunters_license_2010_fw(),
                             get_hunters_license_2020_fw()
                             )
          #apply merge to a list of dataframes
