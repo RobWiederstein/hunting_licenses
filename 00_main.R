@@ -174,6 +174,17 @@ compute_pct_change_hunting_licenses_from_2000_to_2020 <- function(){
             colnames(df) <- c("state", "pop_1960")
             df
          }
+         get_pop_1970_us_census <- function(){
+            file <- "./data_pure/uscb/nhgis0006_ts_nominal_state.csv"
+            df <- read.csv(file = file, header = T, colClasses = "character")
+            df.00 <- df[-grep("Puerto|District", df$STATE), ]
+            #from code sheet:  AV0AA1970 == Total population
+            my_cols <- c("STATE", "AV0AA1970")
+            df.00 <- dplyr::select(df.00, my_cols)
+            df.00$AV0AA1970 <- as.numeric(df.00$AV0AA1970)
+            colnames(df.00) <- c("state", "pop_1970")
+            df.00
+         }
          get_pop_1980_us_census <- function(){
             file <- "./data_pure/uscb/nhgis0004_ds116_1980_state.csv"
             df <- read.csv(file = file, header = T, colClasses = "character")
@@ -186,6 +197,17 @@ compute_pct_change_hunting_licenses_from_2000_to_2020 <- function(){
             colnames(df) <- c("state", "pop_1980")
             df
          }
+         get_pop_1990_us_census <- function(){
+            file <- "./data_pure/uscb/nhgis0006_ts_nominal_state.csv"
+            df <- read.csv(file = file, header = T, colClasses = "character")
+            df.00 <- df[-grep("Puerto|District", df$STATE), ]
+            #from code sheet:  AV0AA1990 == Total population
+            my_cols <- c("STATE", "AV0AA1990")
+            df.00 <- dplyr::select(df.00, my_cols)
+            df.00$AV0AA1990 <- as.numeric(df.00$AV0AA1990)
+            colnames(df.00) <- c("state", "pop_1990")
+            df.00
+         }
          get_pop_2000_us_census <- function(){
             file <- "./data_pure/uscb/nhgis0004_ds146_2000_state.csv" 
             df <- read.csv(file = file, header = T, colClasses = "character")
@@ -197,6 +219,17 @@ compute_pct_change_hunting_licenses_from_2000_to_2020 <- function(){
             df$fl5001 <- as.numeric(df$fl5001)
             colnames(df) <- c("state", "pop_2000")
             df
+         }
+         get_pop_2010_us_census <- function(){
+            file <- "./data_pure/uscb/nhgis0006_ts_nominal_state.csv"
+            df <- read.csv(file = file, header = T, colClasses = "character")
+            df.00 <- df[-grep("Puerto|District", df$STATE), ]
+            #from code sheet:  AV0AA2010 == Total population
+            my_cols <- c("STATE", "AV0AA2010")
+            df.00 <- dplyr::select(df.00, my_cols)
+            df.00$AV0AA2010 <- as.numeric(df.00$AV0AA2010)
+            colnames(df.00) <- c("state", "pop_2010")
+            df.00
          }
          get_pop_2020_us_census <- function(){
             file <- "./data_pure/uscb/nhgis0004_ds243_2019_state.csv" 
@@ -212,8 +245,11 @@ compute_pct_change_hunting_licenses_from_2000_to_2020 <- function(){
          }
          #add additional years to list
          my_list_df <- list(get_pop_1960_us_census(),
+                            get_pop_1970_us_census(),
                             get_pop_1980_us_census(),
+                            get_pop_1990_us_census(),
                             get_pop_2000_us_census(),
+                            get_pop_2010_us_census(),
                             get_pop_2020_us_census()
          )
          #apply merge to a list of dataframes
