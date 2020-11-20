@@ -1,5 +1,5 @@
-compute_pct_change_hunting_licenses_from_2000_to_2020 <- function(){
-   merge_sources_for_license_and_population <- function(){
+tidy_up_and_save_data <- function(){
+      combine_data_sources <- function(){
       merge_hunters_license_data <- function(){
          get_hunters_license_1960_fw <- function(){
             file <- "./data_pure/usfw/tabula-2020-11-17-fw_hunting_licenses_1960.csv"
@@ -256,54 +256,53 @@ compute_pct_change_hunting_licenses_from_2000_to_2020 <- function(){
          df.01 <- Reduce(function(x, y) merge(x, y, all=TRUE), my_list_df)
          df.01
       }
-      df.00 <- merge(merge_hunters_license_data(),
-                     merge_census_pop_data()
-                     )
-   }
-   df <- merge_sources_for_license_and_population()
-   df.00 <- merge_sources_for_license_and_population()
-   #add new variables
-   df.00$per_capita_certified_paid_hunting_license_holders_2000_to_population_2000 <- df.00$certified_paid_hunting_license_holders_2000/df.00$pop_2000
-   df.00$per_capita_certified_paid_hunting_license_holders_2020_to_population_2020 <- df.00$certified_paid_hunting_license_holders_2020/df.00$pop_2019
-   df.00$diff_in_resident_hunting_license_per_capita_2000_to_2020 <- df.00$per_capita_certified_paid_hunting_license_holders_2020_to_population_2020 - df.00$per_capita_certified_paid_hunting_license_holders_2000_to_population_2000
-   df.00$divided_by_base_year_2000 <- df.00$diff_in_resident_hunting_license_per_capita_2000_to_2020 / df.00$per_capita_certified_paid_hunting_license_holders_2000_to_population_2000
-   df.00$pct_change_per_capita_resident_hunting_license_2020 <- df.00$divided_by_base_year_2000 * 100
-   df.00$pct_change_per_capita_resident_hunting_license_2020 <- round(df.00$pct_change_per_capita_resident_hunting_license, 1)
-   df.00
+      create_per_capita_columns <- function(){
+            hl_cols <- grep("certified", colnames(merge_hunters_license_data()))
+            df <- merge_hunters_license_data()[, hl_cols]/
+                  merge_census_pop_data()[, -1]
+            old.names <- colnames(df)
+            end_str <- nchar(old.names)
+            start_str <- end_str - 3
+            years <- substr(old.names, start_str, end_str)
+            new.names <- paste("per_capita_hunting_license_", years, sep = "")
+            colnames(df) <- new.names
+            df$state <- merge_census_pop_data()[, 1]
+            df
+      }
+      merge_with_state_fips_codes <- function(){
+            file <- "./data_pure/fips/state_fips_codes.csv"
+            df <- read.csv(file = file, header = T, colClasses = "character")
+            colnames(df) <- c("state", "fips", "abb")
+            omit.terr <- c("DC", "AS", "GU", "MP", "PR", "UM", "VI")
+            df <- df[-which(df[, 3]  %in% omit.terr), ]
+            df$fips[which(nchar(df$fips) == 1)] <- paste("0", df$fips[which(nchar(df$fips) == 1)], sep = "")
+            df
+      }
+      #add additional years to list
+      my_list_df <- list(merge_hunters_license_data(),
+                         merge_census_pop_data(),
+                         create_per_capita_columns(),
+                         merge_with_state_fips_codes()
+      )
+      #apply merge to a list of dataframes
+      df.01 <- Reduce(function(x, y) merge(x, y, all=TRUE), my_list_df)
+      df.01
 }
-
-df.00 <- compute_pct_change_hunting_licenses_from_2000_to_2020()
-
-#add fips codes for choropleth map
-merge_with_state_fips_codes <- function(){
-   file <- "./data_pure/state_fips_codes.csv"
-   df <- read.csv(file = file, header = T, colClasses = "character")
-   colnames(df) <- c("state", "fips", "abb")
-   omit.terr <- c("DC", "AS", "GU", "MP", "PR", "UM", "VI")
-   df <- df[-which(df[, 3]  %in% omit.terr), ]
-   df$fips[which(nchar(df$fips) == 1)] <- paste("0", df$fips[which(nchar(df$fips) == 1)], sep = "")
-   df
+      df.00 <- combine_data_sources()
+      #reorder columns
+      df.01 <- dplyr::select(df.00, state, abb, fips, everything())
+      #convert to long
+      df.02 <- tidyr::gather(df.01, key = "key", value = value, -fips, -state, -abb)
+      #create year column
+      df.02$year <- stringr::str_sub(df.02$key, start = -4)
+      #nix year from variable name
+      df.02$key <- gsub("_[12][90][0-9][0-9]", "", df.02$key)
+      #reorder columns again!
+      df.03 <- dplyr::select(df.02, fips, state, abb, year, key, value)
+      #omit incomplete data fields
+      df.04 <- na.omit(df.03)
+      #save file
+      file <- "./data_tidy/hunting_licenses_by_state_1960_and_2020.csv"
+      write.csv(df.04, file = file, row.names = F)
 }
-
-df.01 <- merge(df.00, merge_with_state_fips_codes())
-#reorder columns
-library(magrittr)
-library(dplyr)
-df.02 <- df.01[, c(24, 1, 2:8, 10:20, 23)]
-#convert to long
-df.03 <-
-   df.02 %>%
-   gather(key = "key", value = value, -fips, -state, -abb)
-   
-#create year column
-get_last_four <- function(x){
-   start = nchar(x) - 3
-   stop = nchar(x)
-   substr(x, start = start, stop = stop)
-}
-df.03$year <- get_last_four(df.03$key)
-#reorder columns again!
-df.04 <- df.03[, c(1:3, 6, 4, 5)]
-#save file
-file <- "./data_tidy/hunting_licenses_by_state_1980_and_2020.csv"
-write.csv(df.04, file = file, row.names = F)
+tidy_up_and_save_data()
