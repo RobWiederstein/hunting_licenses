@@ -126,7 +126,21 @@ The National Survey of Fishing, Hunting, & Wildlife-Associated Recreation (FHWAR
 
 # Methodology
 
-The analysis relied upon the statistical programming language known as `R`. [@r_core_team_r_2020]
+The analysis relied upon the statistical programming language known as `R`. [@r_core_team_r_2020] The plots were graphed with `ggplot2`.[@wickham_ggplot2_2016]  The data from the sources above were combined into a single, wide dataframe and then converted into long format.  The total number of observations in the dataframe was `r nrow(df.00)` and the number of variables or columns was `r ncol(df.00)`. The column names "key" and "value" are the default labels in the `tidyr` package. [@wickhamTidyrTidyMessy2020] Consistent with good data practice, each row is an observation and each column is a variable.  [@wickhamTidyData2014] The top 5 rows of the dataframe are shown below for illustrative purposes.
+
+```{r head-dataframe, echo=FALSE}
+head(df.00)
+
+```
+
+The variables that were assembled into the dataframe are as follows:
+
+```{r variable-listing, echo=FALSE}
+unique(df.00$key)
+
+```
+
+Not all variables were carried forward through the period of `r min(df.00$year)` to `r max(df.00$year)`.  For example, the 1960 data from USFW omitted five of the possible six variables which were filled with `NA`.  Only observations with  values were retained while `NA` values were omitted. This is also known as "complete cases" strategy and is a traditional approach to dealing with missing values.  [@grahamMethodsHandlingMissing2012] 
 
 ```{r plot_total_licenses, echo=FALSE}
 df.01 <- dplyr::filter(df.00, key == "certified_paid_hunting_license_holders")
@@ -140,7 +154,7 @@ p <- ggplot(df.02, aes(year, total_licenses))
 p <- p + geom_line(color = "blue")
 p <- p + scale_y_continuous(limits = c(0, 20000000),
                             name = "",
-                            breaks = c(0, 50e5, 100e5, 150e5, 200e5),
+                            breaks = c(0, 50e4, 100e4, 150e4, 200e4),
                             labels = c("0", "50m", "100m", "150m", "200m")
 )
 p <- p + ggtitle("Total Number of State Issued Hunting Licenses \n 1960 - 2020")
@@ -166,47 +180,27 @@ p
 ```
 
 
-```{r table_00}
+```{r table_00, echo=FALSE}
 library(flextable)
 library(officer)
 
-myft <- flextable(
-  head(mtcars), 
-  col_keys = c("am", "carb", "gear", "mpg", "drat" ))
+df.01 <- dplyr::filter(df.00, year == 2020 & key == "per_capita_hunting_license")
+df.01$value <- round(df.01$value * 1000, 0)
+df.01 <- dplyr::arrange(df.01, -value)
+df.01 <- df.01[1:10, ]
+df.01$rank <- 1:10
+df.01 <- dplyr::select(df.01, rank, state, value)
+colnames(df.01)[3] <- "licenses/1000"
+
+
+myft <- flextable(df.01, col_keys = c("rank", "col1", "state", "licenses/1000"))
+myft <- theme_vanilla(myft)
+myft <- empty_blanks(myft)
+myft <- set_caption(myft, caption = "Top 10 States Per Capita Hunting License")
 myft
-```
-
-```{r table_01}
-knitr::kable(head(mtcars[, 1:4]), "pipe")
 
 ```
 
-```{r table_02}
-knitr::kable(head(mtcars[, 1:4]), "simple")
-```
-
-```{r table_03}
-iris2 <- head(iris)
-knitr::kable(iris2, col.names = gsub("[.]", " ", names(iris)))
-```
-
-```{r table_04}
-# left, center, center, right, right
-knitr::kable(iris2, 
-             align = "lccrr",
-             caption = "An example of table caption")
-```
-
-```{r table_05}
-knitr::kable(iris2, caption = "An example table caption.")
-```
-
-```{r}
-library(knitr)
-library(kableExtra)
-kable(iris[1:5, ]) %>%
-  kable_styling(latex_options = "striped")
-```
 
 
 
