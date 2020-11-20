@@ -35,6 +35,12 @@ df.00$value <- as.numeric(df.00$value)
 library("ggplot2")
 library("dplyr")
 library("magrittr")
+library("ggthemes")
+library("flextable")
+library("officer")
+library("knitr")
+library("kableExtra")
+library(sparkline)
 ```
 
 # Question
@@ -124,25 +130,35 @@ NHGIS is one of several IPUMS data integration projects located  with the Minnes
 
 The National Survey of Fishing, Hunting, & Wildlife-Associated Recreation (FHWAR)  reports result from interviews with U.S. residents about their fishing, hunting, and wildlife watching. The survey has been taken every five years since 1955 and potentially provides a rich and insightful look into hunting trends. Its duration exceeds that of the hunting license data that began in 1963.  [@u.s.departmentoftheinterior2016NationalSurvey] The agency describes its survey as "one of the oldest and most comprehensive continuing recreation surveys."[@u.s.departmentoftheinterior2016NationalSurvey]  The 2016 survey--the latest available, 3,931 anglers and hunters and 3,997 wildlife watchers were interviewed. [@u.s.departmentoftheinterior2016NationalSurvey](U.S. Department of the Interior et al :9)  The report was explicit that the sample size was large enough for a national conclusion, but was silent on its insight at the state-level. "The 2016 Survey's questions and methodology were similar to those used in the 2011, 2006, 2001, 1996, and 1991 Surveys. Therefore, the estimates are comparable." [@u.s.departmentoftheinterior2016NationalSurvey].
 
-# Methodology
+# Analysis
+
+## General
 
 The analysis relied upon the statistical programming language known as `R`. [@r_core_team_r_2020] The plots were graphed with `ggplot2`.[@wickham_ggplot2_2016]  The data from the sources above were combined into a single, wide dataframe and then converted into long format.  The total number of observations in the dataframe was `r nrow(df.00)` and the number of variables or columns was `r ncol(df.00)`. The column names "key" and "value" are the default labels in the `tidyr` package. [@wickhamTidyrTidyMessy2020] Consistent with good data practice, each row is an observation and each column is a variable.  [@wickhamTidyData2014] The top 5 rows of the dataframe are shown below for illustrative purposes.
 
 ```{r head-dataframe, echo=FALSE}
-head(df.00)
+df.table <- head(df.00)
+# knitr::kable(df.table, caption = "Top 5 Rows of Dataframe", format.args = list(big.mark = ","))
+df.table$value <- prettyNum(df.table$value,big.mark=",",scientific=FALSE)
 
+kbl(df.table, caption = "Top 5 Rows of Hunting License Dataframe") %>%
+  kable_styling(bootstrap_options = "striped", full_width = T)
 ```
 
 The variables that were assembled into the dataframe are as follows:
 
-```{r variable-listing, echo=FALSE}
-unique(df.00$key)
+```{r variable-listing-table, echo=FALSE}
+t1 <- table(df.00$key, df.00$year)
+kbl(t1, caption = "Variable Frequency by Year") %>%
+      kable_styling(bootstrap_options = "striped", full_width = T)
 
 ```
 
-Not all variables were carried forward through the period of `r min(df.00$year)` to `r max(df.00$year)`.  For example, the 1960 data from USFW omitted five of the possible six variables which were filled with `NA`.  Only observations with  values were retained while `NA` values were omitted. This is also known as "complete cases" strategy and is a traditional approach to dealing with missing values.  [@grahamMethodsHandlingMissing2012] 
+Not all variables were carried forward through the period of `r min(df.00$year)` to `r max(df.00$year)`.  For example, the 1960 data from USFW omitted five of the possible six variables which were filled with `NA`.  Only observations with  values were retained while `NA` values were omitted. This is also known as "complete cases" strategy and is a traditional approach to dealing with missing values.  [@grahamMethodsHandlingMissing2012] The District of Columbia and Puerto Rico, as well as U.S. territories, were also omitted.  Thus, the "50" seen frequently in the table above represent the 50 U.S. states.
 
-```{r plot_total_licenses, echo=FALSE}
+## National
+
+```{r plot_total_licenses, out.width='50%', fig.align='center', echo=FALSE}
 df.01 <- dplyr::filter(df.00, key == "certified_paid_hunting_license_holders")
 
 df.02 <- 
@@ -151,18 +167,20 @@ df.02 <-
       summarize(total_licenses = sum(value))
       
 p <- ggplot(df.02, aes(year, total_licenses))
-p <- p + geom_line(color = "blue")
+p <- p + geom_line(color = "#4582EC")
+p <- p + geom_point(color = "#4582EC", size = 3)
 p <- p + scale_y_continuous(limits = c(0, 20000000),
                             name = "",
-                            breaks = c(0, 50e4, 100e4, 150e4, 200e4),
-                            labels = c("0", "50m", "100m", "150m", "200m")
+                            breaks = c(0, 50e5, 100e5, 150e5, 200e5),
+                            labels = c("0", "5m", "10m", "15m", "20m")
 )
+p <- p + scale_x_continuous(name = "")
 p <- p + ggtitle("Total Number of State Issued Hunting Licenses \n 1960 - 2020")
-p <- p + theme(plot.title = element_text(hjust = 0.5))
+p <- p + theme_gdocs()
 p
 ```
 
-```{r plot_licenses_per_capita, echo=FALSE}
+```{r plot_licenses_per_capita, out.width='50%', fig.align='center', echo=FALSE}
 df.01 <- dplyr::filter(df.00, key == "per_capita_hunting_license")
 
 df.02 <- 
@@ -172,41 +190,54 @@ df.02 <-
 df.02$per_capita_license <- round(df.02$per_capita_license * 1000, 0)
       
 p <- ggplot(df.02, aes(year, per_capita_license))
-p <- p + geom_line(color = "blue")
-p <- p + scale_y_continuous(limits = c(0, 120))
-p <- p + ggtitle("Median State Hunting Licenses per Thousand \n 1960 - 2020")
-p <- p + theme(plot.title = element_text(hjust = 0.5))
+p <- p + geom_line(color = "#4582EC")
+p <- p + geom_point(color = "#4582EC", size = 3)
+p <- p + scale_y_continuous(limits = c(0, 120),
+                            name = "licenses/thousand")
+p <- p + scale_x_continuous(name = "")
+p <- p + ggtitle("Median State Issued Hunting Licenses \n 1960 - 2020")
+p <- p + theme_gdocs()
 p
 ```
 
+## State-level
 
 ```{r table_00, echo=FALSE}
-library(flextable)
-library(officer)
-
 df.01 <- dplyr::filter(df.00, year == 2020 & key == "per_capita_hunting_license")
 df.01$value <- round(df.01$value * 1000, 0)
 df.01 <- dplyr::arrange(df.01, -value)
-df.01 <- df.01[1:10, ]
-df.01$rank <- 1:10
-df.01 <- dplyr::select(df.01, rank, state, value)
-colnames(df.01)[3] <- "licenses/1000"
+df.01$rank <- 1:nrow(df.01)
+t1 <- df.01[1:10, ]
+t1 <- dplyr::select(t1, rank, state, value)
+colnames(t1)[3] <- "licenses/1000"
+t2 <- df.01[41:50, ]
+t2 <- dplyr::select(t2, rank, state, value)
+colnames(t2)[3] <- "licenses/1000"
+row.names(t2) <- NULL
+#knitr::kable(t2, caption = "Bottom 10 States for Hunting")
+#knitr::kable(list(t1, t2), caption = "Top & Bottom 10 States for Hunting")
+kable(t1, caption = "Top 10 States for Hunting") %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE, position = "float_left")
+kable(t2, caption = "Bottom 10 States for Hunting") %>%
+  kable_styling(bootstrap_options = c("striped"), full_width = FALSE, position = "left")
 
-
-myft <- flextable(df.01, col_keys = c("rank", "col1", "state", "licenses/1000"))
-myft <- theme_vanilla(myft)
-myft <- empty_blanks(myft)
-myft <- set_caption(myft, caption = "Top 10 States Per Capita Hunting License")
-myft
 
 ```
+
+
+
+## Forecast
+
+## Further Research
+
+2014 Allocation of gun revenue plotted compared to hunter license data.  A floor and ceiling is set within the allocation forumula as well as territorial size.
 
 
 
 
 # Conclusions
 
-Hunting license issuance among the states for the 2000 to 2020 years declined.  This conclusion is identical to other studies using the U.S. Fish and Wildlife survey data. Possible explanations in the decline in hunting include the aging of the U.S. population, the continued migration from rural to urban settings. [@Mehmood]
+Hunting license issuance among the states for the 1960 to 2020 years declined.  This conclusion is matches other studies and other datasets.  Possible explanations in the decline in hunting include the aging of the U.S. population, the continued migration from rural to urban settings. [@Mehmood] Hunting as a pastime remains grim, imperiling state conservation efforts.  Wildlife and habitat conservation efforts will depend on the US moving away from a "pay-to-play" model and toward more sustainable funding streams like that proposed in the Act.
 
 
 
