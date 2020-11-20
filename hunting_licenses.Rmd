@@ -23,6 +23,20 @@ nocite: '@*'
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r load_file, include=FALSE}
+source("./00_main.R")
+file <- "./data_tidy/hunting_licenses_by_state_1960_and_2020.csv"
+df.00 <- data.table::fread(file = file, data.table = F, colClasses = "character")
+df.00$year <- as.integer(df.00$year)
+df.00$value <- as.numeric(df.00$value)
+```
+
+```{r load_libraries, include = FALSE}
+library("ggplot2")
+library("dplyr")
+library("magrittr")
+```
+
 # Question
 
 Hunting as a pastime is declining in the United States. Its prolonged slump and projected decline is significant because license fees and taxes support wildlife conservation efforts.   This "user-play, user-pay" funding system--a model replicated across the globe--is jeopardizing conservation efforts as hunting declines.  [@rott] The question for consideration is whether the issuance of hunting licenses declined from 2000 to 2020 and, if so, which states showed the greatest declines.
@@ -68,11 +82,6 @@ Conservation efforts are generally financed through two sources: the sale of hun
 -  a 10 percent tax on pistols and revolvers[@26USCS4181];
 -  an 11 percent tax on bows, archery equipment,and long arms;
 -  an inflation adjusted tax on arrow shafts, standing at 48 cents per shaft in 2014;
-```{r}
-plot(mtcars$mpg, mtcars$wt)
-```
-
-
 
 "Congress requires each state and U.S. territory to develop a State Wildlife Action Plan - a proactive, comprehensive conservation strategy which examines species health and recommends actions to conserve wildlife and vital habitat before they become more rare and costly to protect."[@allianceforamericasfishwildlifeUsAllianceAmerica: 2]
 
@@ -100,7 +109,7 @@ Various explanations for the decline in hunting have been tendered. Researchers 
 
 # Data Sources
 
-Data was retrieved from two sources: the U.S. Fish and Wildlife Agency and the U.S. Census Bureau.
+Data was retrieved from three sources: the U.S. Fish and Wildlife Agency, the U.S. Census Bureau and the National Survey of Fishing, Hunting, & Wildlife-Associated Recreation.
 
 ## U.S. Fish and Wildlife
 
@@ -117,16 +126,54 @@ The National Survey of Fishing, Hunting, & Wildlife-Associated Recreation (FHWAR
 
 # Methodology
 
-The effort used a statistical programming language known as "R". [@R-base]
+The analysis relied upon the statistical programming language known as `R`. [@r_core_team_r_2020]
 
-```{r session_info, echo=FALSE}
-sessionInfo()
+```{r plot_total_licenses, echo=FALSE}
+df.01 <- dplyr::filter(df.00, key == "certified_paid_hunting_license_holders")
+
+df.02 <- 
+      df.01 %>%
+      group_by(year) %>%
+      summarize(total_licenses = sum(value))
+      
+p <- ggplot(df.02, aes(year, total_licenses))
+p <- p + geom_line(color = "blue")
+p <- p + scale_y_continuous(limits = c(0, 20000000),
+                            name = "",
+                            breaks = c(0, 50e5, 100e5, 150e5, 200e5),
+                            labels = c("0", "50m", "100m", "150m", "200m")
+)
+p <- p + ggtitle("Total Number of State Issued Hunting Licenses \n 1960 - 2020")
+p <- p + theme(plot.title = element_text(hjust = 0.5))
+p
 ```
 
-```{r dataframe_info}
-file <- "./data_tidy/hunting_licenses_by_state_2000_and_2020.csv"
-df <- read.csv(file = file, header = T, colClasses = "character")
-str(df)
+```{r plot_licenses_per_capita, echo=FALSE}
+df.01 <- dplyr::filter(df.00, key == "per_capita_hunting_license")
+
+df.02 <- 
+      df.01 %>%
+      group_by(year) %>%
+      summarize(per_capita_license = median(value))
+df.02$per_capita_license <- round(df.02$per_capita_license * 1000, 0)
+      
+p <- ggplot(df.02, aes(year, per_capita_license))
+p <- p + geom_line(color = "blue")
+p <- p + scale_y_continuous(limits = c(0, 120))
+p <- p + ggtitle("Median State Hunting Licenses per Thousand \n 1960 - 2020")
+p <- p + theme(plot.title = element_text(hjust = 0.5))
+p
+```
+
+
+```{r table_00}
+library(flextable)
+library(officer)
+
+myft <- flextable(
+  head(mtcars), 
+  col_keys = c("am", "carb", "gear", "mpg", "drat" ))
+myft
 ```
 
 ```{r table_01}
