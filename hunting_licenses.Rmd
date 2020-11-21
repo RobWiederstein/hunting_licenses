@@ -139,7 +139,7 @@ The analysis relied upon the statistical programming language known as `R`. [@r_
 ```{r head-dataframe, echo=FALSE}
 df.table <- head(df.00)
 # knitr::kable(df.table, caption = "Top 5 Rows of Dataframe", format.args = list(big.mark = ","))
-df.table$value <- prettyNum(df.table$value,big.mark=",",scientific=FALSE)
+df.table$value <- prettyNum(df.table$value, big.mark=",", scientific=FALSE)
 
 kbl(df.table, caption = "Top 5 Rows of Hunting License Dataframe") %>%
   kable_styling(bootstrap_options = "striped", full_width = T)
@@ -199,6 +199,71 @@ p <- p + ggtitle("Median State Issued Hunting Licenses \n 1960 - 2020")
 p <- p + theme_gdocs()
 p
 ```
+
+
+```{r plot-pct-hunters, out.width='50%', fig.align='center', echo=F}
+```
+
+
+```{r plot-pct-hunters, out.width='50%', fig.align='center', echo=F}
+# fw license data
+df.1 <- dplyr::filter(df.00, key == "certified_paid_hunting_license_holders")
+df.2 <-
+        df.1 %>%
+        group_by(year) %>%
+        summarise(total_hunting_license = sum(value))
+df.3 <- dplyr::filter(df.00, key == "pop")
+
+df.4 <- 
+        df.3 %>%
+        group_by(year) %>%
+        summarise(total_population = sum(value))
+df.5 <- merge(df.2, df.4)
+df.5$pct_person_having_hunters_lic <- df.5$total_hunting_license / df.5$total_population
+df.5$pct_person_having_hunters_lic <- round(df.5$pct_person_having_hunters_lic * 100, 1)
+df.5 <- tidyr::gather(df.5, key = key, value = value, -year)
+df.6 <- dplyr::filter(df.5, key == "pct_person_having_hunters_lic")
+## national survey fhwar
+file <- "./data_pure/usfw/2020-11-20-fw_nat_survey_fhwar_1991_2016.csv"
+df.7 <- read.csv(file = file)
+df.7$participation_rate <- df.7$participation * 100
+df.8 <- tidyr::gather(df.7, key = key, value = value, -year)
+df.9 <- rbind(df.8, df.6)
+df.9 <- dplyr::filter(df.9, key == "participation_rate" | key == "pct_person_having_hunters_lic")
+df.9$key <- gsub("participation_rate", "Survey_FHWAR", df.9$key)
+df.9$key <- gsub("pct_person_having_hunters_lic", "F&W_License", df.9$key)
+#df.9$key <- factor(df.9$key)
+#plot
+p <- ggplot(df.9, aes(year, value, group = key, colour = key))
+p <- p + geom_line()#4582EC
+p <- p + geom_point(size = 3)
+p <- p + scale_y_continuous(limits = c(0, 10),
+                            name = "",
+                            breaks = c(0, 2.5, 5, 7.5, 10),
+                            labels = c("0.0%", "2.5%", "5.0%", "7.5%", "10.0%")
+                            )
+p <- p + scale_x_continuous(name = "")
+p <- p + scale_color_manual(values=c("#4582EC", "#ffa600"))
+p <- p + ggtitle("Hunting Licenses vs. Survey Participation Rate")
+p <- p + theme_gdocs()
+p
+```
+
+```{r plot-pop-hunting-decade-increase, out.width='50%', fig.align='center', echo=F}
+file <- "./data_pure/total_annual_hl_and_pop_1960-2020.csv"
+df.pct <- read.csv(file = file, header = T, as.is = T)
+df.pct <- tidyr::gather(df.pct, key = key, value = value, -year)
+df.pct <- dplyr::filter(df.pct, key == "pct_increase_population" | key == "pct_increase_hunting_lic")
+p <- ggplot(df.pct, aes(year, value, group = key, color = key))
+p <- p + geom_line()
+p <- p + geom_point(size = 3)
+p <- p + scale_color_manual(values=c("#4582EC", "#ffa600"))
+p <- p + theme_gdocs()
+p <- p + scale_x_continuous(name = "")
+p <- p + ggtitle("Pct. Increase in Population and Hunting Licenses \n base year = 1960")
+p
+```
+
 
 ## State-level
 
