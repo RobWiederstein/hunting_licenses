@@ -158,7 +158,7 @@ Not all variables were carried forward through the period of `r min(df.00$year)`
 
 ## National
 
-```{r plot_total_licenses, out.width='50%', fig.align='center', echo=FALSE}
+```{r plot_total_licenses, out.extra='style="float:right; padding:10px"' out.width='50%', echo=FALSE}
 df.01 <- dplyr::filter(df.00, key == "certified_paid_hunting_license_holders")
 
 df.02 <- 
