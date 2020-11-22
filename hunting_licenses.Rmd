@@ -45,13 +45,14 @@ library(sparkline)
 
 # Question
 
-Hunting as a pastime is declining in the United States. Its prolonged slump and projected decline is significant because license fees and taxes support wildlife conservation efforts.   This "user-play, user-pay" funding system--a model replicated across the globe--is jeopardizing conservation efforts as hunting declines.  [@rott] The question for consideration is whether the issuance of hunting licenses declined from 2000 to 2020 and, if so, which states showed the greatest declines.
+Hunting as a pastime is declining in the United States. Its prolonged slump and projected decline is significant because license fees and taxes fund wildlife conservation efforts.   This "user-play, user-pay" funding system--a model replicated across the globe--is jeopardizing conservation efforts as hunting declines.  [@rott] The question for consideration is whether the issuance of hunting licenses declined from 2000 to 2020 and, if so, which states showed the greatest declines.
 
 # Background
 
-## Wildlife as Public Good
+## Wildlife as Public Resource
 
-Discuss the common law regarding wild animals. Tradgedy of the commons.
+The Public Trust Doctrine (PTD) is considered to be the cornerstone of the North American Model of Wildlife Conservation (AMWC). The doctrine posits that "wildlife is owned by no one and held in trust by governments for the present and future benefit of its citizens."[@jacobsonConservationInstitution21st2010]  It was first recognized by the United States Supreme Court in the seminal case Martin vs. Waddell's Lessee, 41 U.S. 367 (1842). There, the Court held "that the *public held a common right* to fish in navigable and tidal waters of New Jersey because they and their underlying lands *were owned by the state for the common use by the people*." [@thewildlifesocietyPublicTrustDoctrine2010]  Since the government is entrusted with the public's assets, it has a responsiblity as trustee and fiduciary to safeguard them for the long term benefit of the public.[@thewildlifesocietyPublicTrustDoctrine2010]
+
 
 ## U.S. Conservation Movement
 
@@ -71,9 +72,13 @@ Due to the success of the Pittman–Robertson Act, a similar act was proposed fo
 
 According to an article in Outdoor Life, hunting reached its peak in 1982 when nearly 17 million hunters purchased 28.3 million licenses. Additionally, persons born between the years 1946 and 1964, commonly referred to as the "Baby Boomers", are the largest cohort of hunters and will age out of the sport in the next 15 years.[@krebsWhyWeSuck2019]  The decline was acknowledged and projected to continue in Wisconsin deer hunters through 2030. [@winkler]
 
+In a 2012 study of Wisconsin deer hunters, researchers projected 10% decline through 2020 and an additional 18% decline from 2020 to 2030. [@winklerFutureHuntingAgeperiodcohort2013]
+
 ## State Role in Conservation
 
-"Regulated hunting and trapping have been cornerstones of wildlife management in the United States since the advent of wildlife conservation," write two prominent zoologists along these lines."[@bravermanConservationHuntingTill2015] 
+Wildlife management is divided between the federal government and individual states. States have primary responsibility as the trustees of wildlife due to the Public Trust Doctrine, except where the Constitution provided for federal oversight.[@beanEvolutionNationalWildlife1997]
+
+"Regulated hunting and trapping have been cornerstones of wildlife management in the United States since the advent of wildlife conservation," write two prominent zoologists along these lines."[@bravermanConservationHuntingTill2015]  
 
 ## Reasons for Decline
 
@@ -81,7 +86,8 @@ Proferred reasons for the decline include aging of hunting population, increased
 
 ## Declining Fees and Taxes
 
-Conservation efforts are generally financed through two sources: the sale of hunting licenses from the state and the sale of firearms.  Texas, for example, funds 97% of its conservation efforts from these two sources.[@bravermanConservationHuntingTill2015]
+"Fish and wildlife conservation funding in the U.S., at least at the state level, typically is characterized as a user-pay, user-benefit model." [@organWildlifeSocietyTechnical2012] "From the earliest days of active management and enforcement by nascent state fish and wildlife agencies, hunters, anglers, and trappers have
+funded restoration and conservation initiatives."[@organWildlifeSocietyTechnical2012] Conservation efforts are generally financed through two sources: the sale of hunting licenses from the state and the sale of firearms.  Though smaller resources also add to conservation efforts.  To this day, the combination of sportsmen-derived funds from hunting licenses and gun sales comprise between 60 and 90 percent of the typical state fish and wildlife agency budget.[@organWildlifeSocietyTechnical2012] Some wildlife agencies budgets, however rely on even higher percentages of revenue from sportsment with states like Texas, for example, funding 97% of its conservation efforts from these two sources.[@bravermanConservationHuntingTill2015]
 
 ### Federal Taxes
 
@@ -158,7 +164,7 @@ Not all variables were carried forward through the period of `r min(df.00$year)`
 
 ## National
 
-```{r plot_total_licenses, out.extra='style="float:right; padding:10px"' out.width='50%', echo=FALSE}
+```{r plot_total_licenses, out.width='50%', fig.align='center', echo=FALSE}
 df.01 <- dplyr::filter(df.00, key == "certified_paid_hunting_license_holders")
 
 df.02 <- 
