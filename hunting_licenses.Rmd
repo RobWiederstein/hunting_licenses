@@ -89,6 +89,15 @@ Proferred reasons for the decline include aging of hunting population, increased
 "Fish and wildlife conservation funding in the U.S., at least at the state level, typically is characterized as a user-pay, user-benefit model." [@organWildlifeSocietyTechnical2012] "From the earliest days of active management and enforcement by nascent state fish and wildlife agencies, hunters, anglers, and trappers have
 funded restoration and conservation initiatives."[@organWildlifeSocietyTechnical2012] Conservation efforts are generally financed through two sources: the sale of hunting licenses from the state and the sale of firearms.  Though smaller resources also add to conservation efforts.  To this day, the combination of sportsmen-derived funds from hunting licenses and gun sales comprise between 60 and 90 percent of the typical state fish and wildlife agency budget.[@organWildlifeSocietyTechnical2012] Some wildlife agencies budgets, however rely on even higher percentages of revenue from sportsment with states like Texas, for example, funding 97% of its conservation efforts from these two sources.[@bravermanConservationHuntingTill2015]
 
+"Hunters are key stakeholders; their contributions
+and integral role in wildlife conservation continue to
+be important. Maintaining hunter involvement and financial
+support of the Institution is necessary, but not sufficient." [@jacobsonConservationInstitution21st2010] 
+
+""We can no longer rely on our most committed constituency to carry the brunt of the financial burden and subsequently be the primary beneficiaries of our actions."[@jacobsonConservationInstitution21st2010]
+
+Conservations efforts require long term, sustainable and dependable funding sources.  [@jacobsonConservationInstitution21st2010] User-based funding is declining and benefits a narrow group of constituents.  "Other funding options states have pursued include dedicated revenues from vehicle license plates, voluntary tax check-offs, and nonprofit foundations to accept financial gifts."[@jacobsonConservationInstitution21st2010]  These fees have been voluntary and negligible in their impact.  Missouri and Virginia were cited as having funding models that were "reliable, consistent and broad-based."  [@jacobsonConservationInstitution21st2010]
+
 ### Federal Taxes
 
 -  a 10 percent tax on pistols and revolvers[@26USCS4181];
@@ -308,22 +317,9 @@ kable(t2, caption = "Bottom 10 States for Hunting") %>%
 
 # Conclusions
 
-Hunting license issuance among the states for the 1960 to 2020 years declined.  This conclusion is matches other studies and other datasets.  Possible explanations in the decline in hunting include the aging of the U.S. population, the continued migration from rural to urban settings. [@Mehmood] Hunting as a pastime remains grim, imperiling state conservation efforts.  Wildlife and habitat conservation efforts will depend on the US moving away from a "pay-to-play" model and toward more sustainable funding streams like that proposed in the Act.
-
-
-
-
-# Resources
-
-[Krebs, Natalie, Why We Suck at Recruiting New Hunters, Why It Matters, and How You Can Fix It, Outdoor Life (2019).](https://www.outdoorlife.com/why-we-are-losing-hunters-and-how-to-fix-it/)
-
-[U.S. Department of the Interior, U.S. Fish and Wildlife Service, and U.S. Department of Commerce, U.S. Census Bureau. 2016 National Survey of Fishing, Hunting, and Wildlife-Associated Recreation.](https://www.census.gov/content/dam/Census/library/publications/2018/demo/fhw16-nat.pdf)
-
-[Wildlife Management Institute](https://wildlifemanagement.institute).
-
-[Association of Fish and Wildlife Agencies.](https://www.fishwildlife.org)
-
-Sayeed Mehmood, Daowei Zhang & James Armstrong (2003) Factors Associated with Declining Hunting License Sales in Alabama, Human Dimensions of Wildlife, 8:4, 243-262, DOI: [10.1080/716100423](https://www.tandfonline.com/doi/abs/10.1080/716100423)
+Hunting license issuance among the states for the 1960 to 2020 years declined.  This conclusion matches other studies and other datasets.  Possible explanations in the decline in hunting include the aging of the U.S. population, the continued migration from rural to urban settings. [@Mehmood] Hunting as a pastime remains grim, imperiling state conservation efforts.  Wildlife and habitat conservation efforts will depend on the US moving away from a "pay-to-play" model and toward more sustainable funding streams like that proposed in the Act.
 
 # Bibliography
+
+# Appendix
 
