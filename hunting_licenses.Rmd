@@ -217,10 +217,6 @@ p
 
 
 ```{r plot-pct-hunters, out.width='50%', fig.align='center', echo=F}
-```
-
-
-```{r plot-pct-hunters, out.width='50%', fig.align='center', echo=F}
 # fw license data
 df.1 <- dplyr::filter(df.00, key == "certified_paid_hunting_license_holders")
 df.2 <-
@@ -282,6 +278,7 @@ p
 
 ## State-level
 
+
 ```{r table_00, echo=FALSE}
 df.01 <- dplyr::filter(df.00, year == 2020 & key == "per_capita_hunting_license")
 df.01$value <- round(df.01$value * 1000, 0)
@@ -304,6 +301,66 @@ kable(t2, caption = "Bottom 10 States for Hunting") %>%
 
 ```
 
+```{r plot-state-deciles, echo=FALSE}
+# spaghetti plot compare top 10 states for %growth/decrease in pchunting #license
+df.01 <- dplyr::filter(df.00, key == "per_capita_hunting_license")
+df.02 <- dplyr::filter(df.01, year %in% c(1960, 2020))
+df.03 <- tidyr::spread(df.02, key = year, value = value)
+df.03$pct <- ((df.03$'2020' - df.03$'1960') / df.03$'1960' ) * 100
+df.03$state_quintile <- ggplot2::cut_number(df.03$pct, n = 5, labels = paste("Q", 1:5, sep = ""))
+df.04 <- dplyr::filter(df.03, state_quintile %in% c("Q1", "Q5"))
+df.05 <- dplyr::select(df.04, fips:abb, state_quintile, pct, '1960', '2020')
+df.06 <- tidyr::gather(df.05, key = year, value = value,
+                       -fips, -state, -abb, -state_quintile, -pct)
+df.06$value <- round((df.06$value * 1000), 0)
+df.06$year <- as.integer(df.06$year)
+#plot
+p <- ggplot(df.06, aes(year, value,  group = state, colour = state_quintile))
+p <- p + geom_line()
+p <- p + geom_point(size = 3)
+p <- p + theme_gdocs()
+p <- p + scale_x_continuous(name = "")
+p <- p + ggtitle("U.S. States Quintiles Compared \nchange in Per Capita Hunting License")
+p <- p + scale_color_manual(values=c("#4582EC", "#ffa600"))
+p
+```
+
+```{r table-pct-increase,echo=FALSE}
+# bottom 10
+ df.07 <- dplyr::filter(df.06, state_quintile == "Q1" & year == 2020)
+ df.08 <- dplyr::arrange(df.07, -pct)
+ colnames(df.08)[5] <- "percent_change"
+ df.08$percent_change <- round(df.08$percent_change, 1)
+ df.08$percent_change <- paste(df.08$percent_change, "%", sep = "")
+ df.08$rank <- 41:50
+ df.09 <- dplyr::select(df.08, rank, state, percent_change)
+# top 10
+ df.10 <-dplyr::filter(df.06, state_quintile == "Q5" & year == 2020)
+ df.11 <- dplyr::arrange(df.10, -pct)
+ colnames(df.11)[5] <- "percent_change"
+ df.11$percent_change <- round(df.11$percent_change, 1)
+ df.11$percent_change <- paste(df.11$percent_change, "%", sep = "")
+ df.11$rank <- 1:10
+ df.12 <- dplyr::select(df.11, rank, state, percent_change)
+ #add table
+  t1 <- df.12
+ t2 <- df.09
+
+ kable(t1, caption = "Top 10 States %Change in Hunters") %>%
+   kable_styling(bootstrap_options = "striped", full_width = FALSE, position = "float_left")
+ kable(t2, caption = "Bottom 10 States %Change in Hunters") %>%
+   kable_styling(bootstrap_options = c("striped"), full_width = FALSE, position = "left")
+
+```
+
+```{r chorpleth-map, echo=FALSE, warning=FALSE}
+df.13 <- dplyr::select(df.03, state, pct)
+df.13$state <- tolower(df.13$state)
+df.13$pct <- round(df.13$pct, 1)
+names(df.13) <- c("region", "value")
+choroplethr::state_choropleth(df.13, num_colors = 5)
+
+```
 
 
 ## Forecast
