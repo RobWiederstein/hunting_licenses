@@ -232,14 +232,12 @@ tidy_up_and_save_data <- function(){
             df.00
          }
          get_pop_2020_us_census <- function(){
-            file <- "./data_pure/uscb/nhgis0004_ds243_2019_state.csv" 
+            file <-  "./data_pure/uscb/NationalProjections_ProjectedTotalPopulation_2020-2040_Updated12-2018.csv"
             df <- read.csv(file = file, header = T, colClasses = "character")
             colnames(df) <- tolower(colnames(df))
             df <- df[-grep("District|Puerto", df$state), ]
-            #from code sheet: aksle001 == Total pop
-            my_cols <- c("state", "aksle001")
-            df <- dplyr::select(df, my_cols)
-            df$aksle001 <- as.numeric(df$aksle001)
+            df$y2020 <- gsub(",", "", df$y2020)
+            df$y2020 <- as.numeric(df$y2020)
             colnames(df) <- c("state", "pop_2020")
             df
          }
