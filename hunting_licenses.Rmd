@@ -362,6 +362,9 @@ choroplethr::state_choropleth(df.13, num_colors = 5)
 
 ```
 
+```{r chorpleth-map-2, echo=FALSE}
+
+```
 
 ## Forecast
 
