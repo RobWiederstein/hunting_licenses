@@ -32,6 +32,9 @@ df.00$value <- as.numeric(df.00$value)
 ```
 
 ```{r load_libraries, include = FALSE}
+# x <- c("ggmap", "rgdal", "rgeos", "maptools", "dplyr", "tidyr", "tmap")
+# #install.packages(x)
+# lapply(x, library, character.only = TRUE)
 library("ggplot2")
 library("dplyr")
 library("magrittr")
