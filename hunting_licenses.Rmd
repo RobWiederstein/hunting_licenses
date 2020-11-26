@@ -248,6 +248,7 @@ df.9$key <- gsub("participation_rate", "Survey_FHWAR", df.9$key)
 df.9$key <- gsub("pct_person_having_hunters_lic", "F&W_License", df.9$key)
 #df.9$key <- factor(df.9$key)
 #plot
+df.9$value <- as.numeric(df.9$value)
 p <- ggplot(df.9, aes(year, value, group = key, colour = key))
 p <- p + geom_line()#4582EC
 p <- p + geom_point(size = 3)
@@ -356,17 +357,8 @@ p
 
 ```
 
-```{r chorpleth-map, echo=FALSE, warning=FALSE}
-df.13 <- dplyr::select(df.03, state, pct)
-df.13$state <- tolower(df.13$state)
-df.13$pct <- round(df.13$pct, 1)
-names(df.13) <- c("region", "value")
-choroplethr::state_choropleth(df.13, num_colors = 5)
-
-```
-
-```{r chorpleth-map-2, echo=FALSE}
-
+```{r choroplth-map-pct-change-hunters, echo=FALSE, out.width='100%'}
+knitr::include_graphics( "./figs/us-avg-annual-pct-change-per-capita-hunter-1960-2020.jpg")
 ```
 
 ## Forecast
