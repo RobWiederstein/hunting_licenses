@@ -1,8 +1,6 @@
-#uscb inflation adjuster from bls
-path <- "./data_pure/uscb/CPI_U_RS.xlsx"
-df.inf.01 <- readxl::read_excel(path = path, skip = 2)
-df.inf.01 <- na.omit(df.inf.01)
-#usfw conservation revenue
+#usfw wildlife conservation revenue by year
+#https://www.fws.gov/wsfrprograms/Subpages/GrantPrograms/WR/WRApportionmentsHE-1939-2020.xlsx
+#downloaded November 24, 2020
 file <- "./data_pure/usfw/WRApportionmentsHE-1939-2020.csv"
 df.wr <- data.table::fread(input = file, data.table = F, skip = 1, 
                            header = T, strip.white  = T)
@@ -17,51 +15,63 @@ df.wr[, 2:ncol(df.wr)] <- apply(df.wr[, 2:ncol(df.wr)], 2, function(x)gsub("\\$|
 df.wr[, 2:ncol(df.wr)] <- apply(df.wr[, 2:ncol(df.wr)], 2, function(x)as.numeric(x))      
 #title case
 df.wr[, 1] <- stringr::str_to_title(df.wr[, 1])
+#omit territories and DC
+omit.terr <- "American Samoa|Guam|N. Mariana Islands|U.s. Virgin Islands|Puerto Rico"
+df.wr <- df.wr[-grep(omit.terr, df.wr$state), ]
 #convert to long
-df.wr <- tidyr::gather(df.wr, key = year, value = value, -state)
-df.wr$year <- gsub("fy", "", df.wr$year)
+df.wr <- tidyr::gather(df.wr, key = key, value = value, -state)
+#add year column
+df.wr$year <-gsub("fy", "", df.wr$key)
+df.wr$key <- "wildlife_rest_real_dollars"
+df.wr <- dplyr::select(df.wr, state, year, key, value)
 df.wr$year <- as.integer(df.wr$year)
+df.wr$wildlife_rest_2019_dollars <- priceR::afi(df.wr$value, 
+                                                from_date = df.wr$year, 
+                                                to_date = 2019, 
+                                                country = "US"
+                                                )
 
-df.wr$inf_adj_wr_allocation <- priceR::afi(df.wr$value, from_date = df.wr$year, to_date = 2019, country = "US")
+df.wr.01 <- dplyr::select(df.wr, state, year, wildlife_rest_2019_dollars)
+df.wr.01 <- tidyr::gather(df.wr.01, key = key, value = value, -state, -year)
+df.wr.02 <- rbind(df.wr[, 1:4], df.wr.01)
+
 #actual dollars by year
-df.wr.01 <-
-        df.wr %>%
-        group_by(year) %>%
+df.wr.03 <-
+        df.wr.02 %>%
+        group_by(year, key) %>%
         summarize(total = sum(value))
-#2019 /constant dollars by year
-df.wr.02 <-
-        df.wr %>%
-        group_by(year) %>%
-        summarize(total = sum(inf_adj_wr_allocation))
 
-p <- ggplot(df.wr.01, aes(year, total))
+p <- ggplot(df.wr.03, aes(year, total, group = key, color = key))
 p <- p + geom_line()
-p <- p + geom_smooth()
-p <- p + geom_line(data = df.wr.02, aes(year, total), color = "red")
-p
+p <- p + ggtitle("Total Annual Wildlife Restoration Funds \n Real vs Current Dollars\n1939-2020")
+p <- p + scale_y_continuous(breaks = c(0, 250e6, 500e6, 750e6),
+                            labels = c("0", "$250m", "$500m", "$750m"),
+                            name = "")
+p <- p + scale_x_continuous(name = "")
+filename <- "./img/wildlife_restoration_funds_real_versus_current_dollars_1939_2020.jpg"
+ggsave(filename = filename, height = 5, width = 7, dpi = 300, unit = "in")
 
-df.cons <- 
-library(zoo)
-library(quantmod)
-library(lubridate)
-quantmod::getSymbols("CPIAUCSL", src='FRED')
-# make an `xts` object of prices
-set.seed(1)
-p <- xts(rnorm(63, mean=10, sd=3), seq(from=as.Date('1950-12-01'), by='years', length.out=63))
-colnames(p) <- "price"
-avg.cpi <- apply.yearly(CPIAUCSL, mean)
-cf <- avg.cpi/as.numeric(avg.cpi['2008']) #using 2008 as the base year
-dat <- merge(p, cf, all=FALSE)
-dat$adj <- dat[, 1] * dat[, 2]
-tail(dat)
+#save table
+df.wr.04 <- tidyr::spread(df.wr.03, key = key, value = total)
+file <- "./tbls/usfw_total_annual_restoration_funds_1939_2020.csv"
+write.csv(df.wr.04, file = file, row.names = F)
 
-
-#
-set.seed(123)
-prices <- rnorm(200, mean=10, sd=3)
-years <- round(rnorm(200, mean=2006, sd=5))
-df <- data.frame(prices, years)
-
-library(priceR)
-adjust_for_inflation(prices, years, "US", to_date = 2008)
-# [1]  6.707112  8.102301 16.228195  9.785813 11.795624 17.197669 13.589684  7.210790  6.744690  9.250294 14.267029 11.561430  9.921566 12.007162 10.244619
+#totals by state over life of program--inflation adjusted
+df.wr.05 <- dplyr::filter(df.wr.02, key == "wildlife_rest_2019_dollars")
+df.wr.06 <-
+      df.wr.05 %>%
+      group_by(state) %>%
+      summarize(total_wildlife_rest_funds_infl_adj = sum(value)) %>%
+      arrange(-total_wildlife_rest_funds_infl_adj)
+df.wr.06$rank <- 1:nrow(df.wr.06)
+df.wr.06 <- dplyr::select(df.wr.06, rank, state, total_wildlife_rest_funds_infl_adj)
+df.wr.06$total_wildlife_rest_funds_infl_adj <- round(df.wr.06$total_wildlife_rest_funds_infl_adj, 2)
+file <- "./tbls/usfw_total_restoration_funds_by_state_inflation_adjusted.csv"
+write.csv(df.wr.06, file = file, row.names = F)
+#plot as facet grid by state over time
+#so table needs to be almost the full table
+p <- ggplot(df.wr.02, aes(year, value, group = key, color = key))
+p <- p + geom_line()
+p <- p + facet_wrap(facets = vars(state))
+p 
+#can you add to appendix in rmarkdown?
