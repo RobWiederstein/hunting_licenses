@@ -70,8 +70,24 @@ file <- "./tbls/usfw_total_restoration_funds_by_state_inflation_adjusted.csv"
 write.csv(df.wr.06, file = file, row.names = F)
 #plot as facet grid by state over time
 #so table needs to be almost the full table
-p <- ggplot(df.wr.02, aes(year, value, group = key, color = key))
+p <- ggplot(df.wr.02, aes(year, value, group = key, colour = key))
 p <- p + geom_line()
+p <- p + scale_y_continuous(limits = c(0, 50e6),
+                            breaks = c(0, 12.5e6, 25e6, 37.5e6, 50e6),
+                            labels = c("$0.0", "$12.5m", "$25.0m", "$37.5m", "$50.0m"),
+                            name = "")
+p <- p + scale_x_continuous(breaks = c(1940, 2020),
+                            name = "")
+#p <- p + scale_color_hue(labels = c("real", "constant"))
+p <- p + scale_colour_manual(values = c("#4582EC", "#ffa600"),
+                             labels = c("constant", "real"),
+                             )
+p <- p + labs(color = "Dollars")
+p <- p + ggtitle("Annual Wildlife Restoration Funding 1939 - 2020\nReal vs. Constant Dollars\nbase year = 2019")
+p <- p + theme_gdocs()
+p <- p + theme(plot.title = element_text(hjust = 0.5))
 p <- p + facet_wrap(facets = vars(state))
 p 
+filename <- "./figs/annual_wildlife_restoration_funding_by_state_1939_2020.jpg"
+ggsave(p, filename = filename, height = 10, width = 10, dpi = 300, units = "in")
 #can you add to appendix in rmarkdown?
