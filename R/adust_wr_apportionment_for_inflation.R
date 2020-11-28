@@ -70,11 +70,29 @@ file <- "./tbls/usfw_total_restoration_funds_by_state_inflation_adjusted.csv"
 write.csv(df.wr.06, file = file, row.names = F)
 #plot as facet grid by state over time
 #so table needs to be almost the full table
+#add state abbs for facet label
+#add state abb
+file <- "./data_pure/misc/state_fips_codes.csv"
+df.states <- read.csv(file = file, header = T, colClasses = "character")
+df.states$FIPS[which(nchar(df.states$FIPS) == 1)] <- paste("0", df.states$FIPS[which(nchar(df.states$FIPS) == 1)], sep = "")
+colnames(df.states)[1] <- "state"
+df.wr.02 <- merge(df.wr.02, df.states[, 1:2])
+df.wr.02 <- dplyr::select(df.wr.02, state, Postal.Code, year, key, value)
+#add additional column for factor variable
+df.factor <- dplyr::filter(df.wr.02, year == 2020 & key == "wildlife_rest_2019_dollars")
+df.factor <-
+      df.factor %>%
+      arrange(-value)
+df.factor$rank <- 1:nrow(df.factor)
+df.wr.02 <- merge(df.wr.02, df.factor[, c(1, 6)])
+
+
+#plot
 p <- ggplot(df.wr.02, aes(year, value, group = key, colour = key))
 p <- p + geom_line()
-p <- p + scale_y_continuous(limits = c(0, 50e6),
-                            breaks = c(0, 12.5e6, 25e6, 37.5e6, 50e6),
-                            labels = c("$0.0", "$12.5m", "$25.0m", "$37.5m", "$50.0m"),
+p <- p + scale_y_continuous(limits = c(0, 40e6),
+                            breaks = c(0, 10e6, 20e6, 30e6, 40e6),
+                            labels = c("$0.0", "$10m", "$20m", "$30m", "$40m"),
                             name = "")
 p <- p + scale_x_continuous(breaks = c(1940, 2020),
                             name = "")
@@ -86,7 +104,7 @@ p <- p + labs(color = "Dollars")
 p <- p + ggtitle("Annual Wildlife Restoration Funding 1939 - 2020\nReal vs. Constant Dollars\nbase year = 2019")
 p <- p + theme_gdocs()
 p <- p + theme(plot.title = element_text(hjust = 0.5))
-p <- p + facet_wrap(facets = vars(state))
+p <- p + facet_wrap(facets = vars(Postal.Code))
 p 
 filename <- "./figs/annual_wildlife_restoration_funding_by_state_1939_2020.jpg"
 ggsave(p, filename = filename, height = 10, width = 10, dpi = 300, units = "in")

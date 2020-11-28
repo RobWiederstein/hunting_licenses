@@ -378,3 +378,9 @@ Hunting license issuance among the states for the 1960 to 2020 years declined.  
 
 # Appendix
 
+```{r facet-plot-wr-allocation, echo=FALSE, out.width="100%"}
+
+knitr::include_graphics("./figs/annual_wildlife_restoration_funding_by_state_1939_2020.jpg")
+
+```
+
