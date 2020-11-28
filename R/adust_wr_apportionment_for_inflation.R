@@ -48,6 +48,7 @@ p <- p + scale_y_continuous(breaks = c(0, 250e6, 500e6, 750e6),
                             labels = c("0", "$250m", "$500m", "$750m"),
                             name = "")
 p <- p + scale_x_continuous(name = "")
+p
 filename <- "./img/wildlife_restoration_funds_real_versus_current_dollars_1939_2020.jpg"
 ggsave(filename = filename, height = 5, width = 7, dpi = 300, unit = "in")
 
@@ -68,6 +69,8 @@ df.wr.06 <- dplyr::select(df.wr.06, rank, state, total_wildlife_rest_funds_infl_
 df.wr.06$total_wildlife_rest_funds_infl_adj <- round(df.wr.06$total_wildlife_rest_funds_infl_adj, 2)
 file <- "./tbls/usfw_total_restoration_funds_by_state_inflation_adjusted.csv"
 write.csv(df.wr.06, file = file, row.names = F)
+head(df.wr.06)
+
 #plot as facet grid by state over time
 #so table needs to be almost the full table
 #add state abbs for facet label
@@ -76,8 +79,9 @@ file <- "./data_pure/misc/state_fips_codes.csv"
 df.states <- read.csv(file = file, header = T, colClasses = "character")
 df.states$FIPS[which(nchar(df.states$FIPS) == 1)] <- paste("0", df.states$FIPS[which(nchar(df.states$FIPS) == 1)], sep = "")
 colnames(df.states)[1] <- "state"
+colnames(df.states)[2] <- "state.abb"
 df.wr.02 <- merge(df.wr.02, df.states[, 1:2])
-df.wr.02 <- dplyr::select(df.wr.02, state, Postal.Code, year, key, value)
+df.wr.02 <- dplyr::select(df.wr.02, state, state.abb, year, key, value)
 #add additional column for factor variable
 df.factor <- dplyr::filter(df.wr.02, year == 2020 & key == "wildlife_rest_2019_dollars")
 df.factor <-
@@ -85,7 +89,7 @@ df.factor <-
       arrange(-value)
 df.factor$rank <- 1:nrow(df.factor)
 df.wr.02 <- merge(df.wr.02, df.factor[, c(1, 6)])
-
+df.wr.02$state.abb <- factor(df.wr.02$state.abb, levels = dput(df.factor$state.abb))
 
 #plot
 p <- ggplot(df.wr.02, aes(year, value, group = key, colour = key))
@@ -94,7 +98,9 @@ p <- p + scale_y_continuous(limits = c(0, 40e6),
                             breaks = c(0, 10e6, 20e6, 30e6, 40e6),
                             labels = c("$0.0", "$10m", "$20m", "$30m", "$40m"),
                             name = "")
-p <- p + scale_x_continuous(breaks = c(1940, 2020),
+p <- p + scale_x_continuous(limits = c(1940, 2020),
+                            breaks = c(1950, 2000),
+                            labels = c("1950", "2000"),
                             name = "")
 #p <- p + scale_color_hue(labels = c("real", "constant"))
 p <- p + scale_colour_manual(values = c("#4582EC", "#ffa600"),
@@ -104,7 +110,7 @@ p <- p + labs(color = "Dollars")
 p <- p + ggtitle("Annual Wildlife Restoration Funding 1939 - 2020\nReal vs. Constant Dollars\nbase year = 2019")
 p <- p + theme_gdocs()
 p <- p + theme(plot.title = element_text(hjust = 0.5))
-p <- p + facet_wrap(facets = vars(Postal.Code))
+p <- p + facet_wrap(facets = vars(state.abb))
 p 
 filename <- "./figs/annual_wildlife_restoration_funding_by_state_1939_2020.jpg"
 ggsave(p, filename = filename, height = 10, width = 10, dpi = 300, units = "in")
