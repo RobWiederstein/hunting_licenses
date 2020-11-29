@@ -1,8 +1,9 @@
 # Rob Wiederstein
+# hunting license project
 # .gitignore for R projects
 # github doesn't track empty dirs
 # other templates:  https://github.com/github/gitignore
-# 
+#
 
 
 # General
@@ -47,16 +48,3 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
-
-# data download files
-data_raw/*.csv
-
-# data output files
-data_tidy/*.geojson
-data_tidy/*.csv
-data_tidy/*.json
-
-#data output files charts
-figs/*.jpg
-figs/*.png
-figs/*.jpeg
