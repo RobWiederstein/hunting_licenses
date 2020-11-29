@@ -161,6 +161,32 @@ tidy_up_and_save_data <- function(){
          df.00 <- Reduce(function(x, y) merge(x, y, all=TRUE), my_list_df)
          
       }
+      merge_wr_apportionment_data <- function(){
+            file <- "./data_pure/usfw/WRApportionmentsHE-1939-2020.csv"
+            df.wr <- data.table::fread(input = file, data.table = F, skip = 1, 
+                                       header = T, strip.white  = T)
+            #colnames
+            colnames(df.wr) <- tolower(colnames(df.wr))
+            colnames(df.wr)[2:ncol(df.wr)] <- gsub(" ", "", colnames(df.wr)[2:ncol(df.wr)])
+            #set space
+            df.wr <- df.wr[1:grep("WYOMING", df.wr$state), 1:grep("fy2020", colnames(df.wr))]
+            #format columns
+            df.wr[, 2:ncol(df.wr)] <- apply(df.wr[, 2:ncol(df.wr)], 2, function(x)stringr::str_trim(x, "both"))
+            df.wr[, 2:ncol(df.wr)] <- apply(df.wr[, 2:ncol(df.wr)], 2, function(x)gsub("\\$|,", "", x))
+            df.wr[, 2:ncol(df.wr)] <- apply(df.wr[, 2:ncol(df.wr)], 2, function(x)as.numeric(x))      
+            #title case
+            df.wr[, 1] <- stringr::str_to_title(df.wr[, 1])
+            #omit territories and DC
+            omit.terr <- "American Samoa|Guam|N. Mariana Islands|U.s. Virgin Islands|Puerto Rico"
+            df.wr <- df.wr[-grep(omit.terr, df.wr$state), ]
+            my.years <- "1960|1970|1980|1990|2000|2010|2020"
+            df.wr <- df.wr[, c(1, grep(my.years, colnames(df.wr)))]
+            colnames(df.wr)[2:ncol(df.wr)] <- paste("wr_apportionment_real_dollars_", 
+                                                    colnames(df.wr)[2:ncol(df.wr)], 
+                                                    sep = "")
+            colnames(df.wr) <- gsub("fy", "", colnames(df.wr))
+            df.wr
+      }
       merge_census_pop_data <- function(){
          get_pop_1960_us_census <- function(){
             file <- "./data_pure/uscb/nhgis0004_ds91_1960_state.csv"
@@ -278,6 +304,7 @@ tidy_up_and_save_data <- function(){
       }
       #add additional years to list
       my_list_df <- list(merge_hunters_license_data(),
+                         merge_wr_apportionment_data(),
                          merge_census_pop_data(),
                          create_per_capita_columns(),
                          merge_with_state_fips_codes()
