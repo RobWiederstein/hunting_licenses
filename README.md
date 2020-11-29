@@ -58,6 +58,9 @@ The project tracks the prevalence of hunting in the U.S. from 1960 to 2020. The 
 
 The project relies primarily on `R` and `rmarkdown`.  A new twist in documentation was the addition of the `citr` package for creating the bibliography.
 
+## Project Flow
+![Flowchart](img/program_data_flow.png)
+
 
 <!-- GETTING STARTED -->
 ## Getting Started
