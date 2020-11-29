@@ -52,7 +52,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-The project tracks the prevalence of hunting in the U.S. over time.
+The project tracks the prevalence of hunting in the U.S. from 1960 to 2020. The decades long decline of hunting is described in the research and has long term implications for conservation of wildlife and its habitat.  Through licensing fees and gun sales, hunters fund a large portion of conservation efforts at the state level.
 
 ### Built With
 
