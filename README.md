@@ -87,6 +87,7 @@ Project Link: [https://github.com/RobWiederstein/hunting_licenses](https://githu
 ## Acknowledgements
 * [Tabula](https://tabula.technology)
 * [US Fish & Wildlife](https://www.fws.gov)
+* [Indiana State Library -- Government Docs](https://digitalcollections.library.in.gov)
 * [GitHub Pages](https://pages.github.com)
 * [Zotero](https://github.com/zotero/zotero)
 * [Zotfile](https://github.com/jlegewie/zotfile)

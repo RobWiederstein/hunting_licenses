@@ -1,5 +1,9 @@
 par(mar = c(4, 4, .1, .1))
 
+#plot 1 -- total hunters
+
+#still don't like --needs refining.  Add key to plot?  Is that possible? Sure!
+# It may not be that hard!
 plot_total_hunting_licenses <- function(){
         #Add main dataframe
         file <- "./data_tidy/hunting_licenses_by_state_1960_and_2020.csv"
@@ -27,9 +31,6 @@ plot_total_hunting_licenses <- function(){
         p <- p + geom_point(data = df.fhwar.01, aes(year, value), colour = "#ffa600", size = 3)
         p <- p + geom_line(data = df.fhwar.02, aes(year, value), colour = "#ff5ca4")
         p <- p + geom_point(data = df.fhwar.02, aes(year, value), colour = "#ff5ca4", size = 3)
-        #p <- p + geom_point(data = df.fhwar.01, aes(year, value, group = methodology, colour = methodology), size = 3)
-        
-        p
         p <- p + scale_y_continuous(limits = c(0, 22000000),
                                     name = "",
                                     breaks = c(0, 50e5, 100e5, 150e5, 200e5),
@@ -41,7 +42,16 @@ plot_total_hunting_licenses <- function(){
         filename <- "./figs/total_us_hunters_from_license_and_survey_data_1955_2020.jpg"
         ggsave(p, filename = filename, height = 5, width = 8, dpi = 300, units = "in")
 }
+plot_total_hunting_licenses()
+#plot 2 -- participaton rate
 
+#plot 3 -- population to hunter growth
+
+#plot 4 -- 
+        #first series is total hunting revenue per hunter (or total population?) in 2020 dollars
+        #total hunters / total revenue over time
+        #second series is wr apportionment by hunter (or total population?) in 2020 dollars over time
+        #total hunters / wr apportionment over time
 
 
 df.01 <- dplyr::filter(df.00, key == "per_capita_hunting_license")
