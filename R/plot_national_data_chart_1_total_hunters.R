@@ -13,30 +13,33 @@ plot_total_hunting_licenses <- function(){
         df.02 <-        df.01 %>%
                         group_by(year) %>%
                         summarize(total_licenses = sum(value))
+        df.03 <- tidyr::gather(df.02, key = key, value = value, -year)
+        df.03$key <- "tot_hunters_licenses"
         # Add FHWAR line plot
         file <-  "./data_pure/usfw/2020-11-20-fw_nat_survey_fhwar_1955_2016.csv"
         colClasses <- c("integer", "character", "integer", "character", "integer", "character", "numeric")
         df.fhwar <- read.csv(file = file, header = T, colClasses = colClasses)
-        df.fhwar$methodology <- factor(df.fhwar$methodology, labels = c("pre-1991", "post-1991"))
-        df.fhwar <- tidyr::gather(df.fhwar, key = key, value = value, -year, -methodology, -total_all_hunters_note, -total_pop_note)
-        #survey results before 1991
-        df.fhwar.01 <- dplyr::filter(df.fhwar, key == "total_all_hunters" & methodology == "pre-1991")
-        #survey results after 1991
-        df.fhwar.02 <- dplyr::filter(df.fhwar, key == "total_all_hunters" & methodology == "post-1991")
+        df.fhwar <- select(df.fhwar, year, total_all_hunters)
+        df.fhwar <- tidyr::gather(df.fhwar, key = key, value = value, -year)
+        df.fhwar$key[which(df.fhwar$year %in% 1955:1990)] <- "tot_hunters_pre_1991"
+        df.fhwar$key[which(df.fhwar$year %in% 1990:2020)] <- "tot_hunters_post_1991"
+        #rbind
+        df.04 <- rbind(df.03, df.fhwar)
+        df.04$key <- factor(df.04$key, levels = c("tot_hunters_licenses",
+                                                     "tot_hunters_pre_1991",
+                                                     "tot_hunters_post_1991")
+                               )
         #plot total number of hunting licenses
-        p <- ggplot(df.02, aes(year, total_licenses))
-        p <- p + geom_line(color = "#4582EC")
-        p <- p + geom_point(color = "#4582EC", size = 3)
-        p <- p + geom_line(data = df.fhwar.01, aes(year, value), colour = "#ffa600")
-        p <- p + geom_point(data = df.fhwar.01, aes(year, value), colour = "#ffa600", size = 3)
-        p <- p + geom_line(data = df.fhwar.02, aes(year, value), colour = "#ff5ca4")
-        p <- p + geom_point(data = df.fhwar.02, aes(year, value), colour = "#ff5ca4", size = 3)
+        p <- ggplot(df.04, aes(year, value, group = key, colour = key))
+        p <- p + geom_line()
+        p <- p + geom_point()
         p <- p + scale_y_continuous(limits = c(0, 22000000),
                                     name = "",
                                     breaks = c(0, 50e5, 100e5, 150e5, 200e5),
                                     labels = c("0", "5m", "10m", "15m", "20m")
         )
         p <- p + scale_x_continuous(name = "")
+        p <- p + scale_colour_manual(values = c("#4582ec", "#ffa600", "#ff5ca4"))
         p <- p + ggtitle("Total U.S. Hunters from License and Surveys \n1955 - 2020")
         p <- p + theme_gdocs()
         filename <- "./figs/total_us_hunters_from_license_and_survey_data_1955_2020.jpg"
