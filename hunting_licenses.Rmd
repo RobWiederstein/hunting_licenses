@@ -1,5 +1,5 @@
 ---
-title: "Hunting Licenses"
+title: "Hunting As United States Pastime 1960 to 2020:  Implications for Conservation"
 knit: (function(input_file, encoding) {
   out_dir <- 'docs';
   rmarkdown::render(input_file,
