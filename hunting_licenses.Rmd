@@ -45,7 +45,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r load_file, include=FALSE}
-source("./00_main.R")
+source("./R/00_main.R")
 file <- "./data_tidy/hunting_licenses_by_state_1960_and_2020.csv"
 df.00 <- data.table::fread(file = file, data.table = F, colClasses = "character")
 df.00$year <- as.integer(df.00$year)
@@ -69,7 +69,7 @@ library(sparkline)
 
 # Question
 
-Hunting as a pastime is declining in the United States. Its prolonged slump and projected decline is significant because license fees and taxes fund wildlife conservation efforts.   This "user-play, user-pay" funding system--a model replicated across the globe--is jeopardizing conservation efforts as hunting declines.  [@rottDeclineHuntersThreatens]The question for consideration is whether the issuance of hunting licenses declined from 2000 to 2020 and, if so, which states showed the greatest declines.
+Hunting as a pastime is declining in the United States. Its prolonged slump and projected decline is significant because license fees and taxes fund wildlife conservation efforts.   This "user-play, user-pay" funding system--a model replicated across the globe--is jeopardizing conservation efforts as hunting declines.  [@rottDeclineHuntersThreatens] Legislative initiatives at the federal level have attempted to diversify funding sources in response.  The question for consideration is whether hunting  declined from 1960 to 2020, how much agreement exists between available data sources, and which states have been impacted.
 
 # Background
 
