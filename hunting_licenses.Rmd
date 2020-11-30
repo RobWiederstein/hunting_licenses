@@ -15,6 +15,7 @@ output:
     number_sections: true
     theme: readable
     highlight: pygments
+    fig_caption: true
 bibliography: references.bib
 nocite: '@*'
 ---
@@ -197,7 +198,13 @@ Not all variables were carried forward through the period of `r min(df.00$year)`
 
 ## National
 
-```{r plot_total_licenses, out.width='50%', fig.align='center', echo=FALSE}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget velit aliquet sagittis id consectetur purus ut faucibus pulvinar. Id diam vel quam elementum pulvinar etiam non quam lacus. Consectetur lorem donec massa sapien faucibus et. Pretium nibh ipsum consequat nisl vel pretium lectus. Cras pulvinar mattis nunc sed blandit libero volutpat. Quisque non tellus orci ac auctor augue mauris augue neque. Porttitor rhoncus dolor purus non enim praesent elementum facilisis leo. Semper eget duis at tellus at urna condimentum mattis. Orci eu lobortis elementum nibh tellus molestie. Tortor id aliquet lectus proin nibh nisl condimentum.
+
+Aenean vel elit scelerisque mauris pellentesque pulvinar. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Adipiscing vitae proin sagittis nisl rhoncus mattis. Mi bibendum neque egestas congue quisque egestas diam in. Vel pretium lectus quam id leo in vitae turpis massa. Cursus in hac habitasse platea. Faucibus pulvinar elementum integer enim neque volutpat ac. Sed blandit libero volutpat sed cras ornare arcu dui. In ornare quam viverra orci. Libero justo laoreet sit amet cursus sit amet.
+
+
+
+```{r plot_total_licenses, out.extra='style="float:right; padding:10px"', out.width='50%', echo=FALSE}
 df.01 <- dplyr::filter(df.00, key == "certified_paid_hunting_license_holders")
 
 df.02 <- 
@@ -219,7 +226,10 @@ p <- p + theme_gdocs()
 p
 ```
 
-```{r plot_licenses_per_capita, out.width='50%', fig.align='center', echo=FALSE}
+Diam volutpat commodo sed egestas. Ac turpis egestas integer eget aliquet nibh. Ultricies mi quis hendrerit dolor. Netus et malesuada fames ac turpis egestas integer eget aliquet. Cras semper auctor neque vitae tempus quam pellentesque nec nam. Morbi tincidunt ornare massa eget egestas purus viverra. Dignissim cras tincidunt lobortis feugiat vivamus at. Gravida rutrum quisque non tellus orci ac. Ornare suspendisse sed nisi lacus sed viverra tellus in hac. Viverra accumsan in nisl nisi scelerisque. Egestas erat imperdiet sed euismod. Netus et malesuada fames ac turpis. Proin libero nunc consequat interdum varius sit amet mattis vulputate. In nibh mauris cursus mattis molestie a iaculis at. Enim facilisis gravida neque convallis a cras semper. Tellus orci ac auctor augue mauris augue neque gravida. Feugiat vivamus at augue eget arcu dictum varius. Potenti nullam ac tortor vitae purus faucibus.
+
+```{r plot-licenses-per-capita, fig.align="center",  out.width='50%', fig.cap="Median Number of State Hunting Licenses", echo=FALSE}
+
 df.01 <- dplyr::filter(df.00, key == "per_capita_hunting_license")
 
 df.02 <- 
@@ -239,6 +249,7 @@ p <- p + theme_gdocs()
 p
 ```
 
+Diam volutpat commodo sed egestas. Ac turpis egestas integer eget aliquet nibh. Ultricies mi quis hendrerit dolor. Netus et malesuada fames ac turpis egestas integer eget aliquet. Cras semper auctor neque vitae tempus quam pellentesque nec nam. Morbi tincidunt ornare massa eget egestas purus viverra. Dignissim cras tincidunt lobortis feugiat vivamus at. Gravida rutrum quisque non tellus orci ac. Ornare suspendisse sed nisi lacus sed viverra tellus in hac. Viverra accumsan in nisl nisi scelerisque. Egestas erat imperdiet sed euismod. Netus et malesuada fames ac turpis. Proin libero nunc consequat interdum varius sit amet mattis vulputate. In nibh mauris cursus mattis molestie a iaculis at. Enim facilisis gravida neque convallis a cras semper. Tellus orci ac auctor augue mauris augue neque gravida. Feugiat vivamus at augue eget arcu dictum varius. Potenti nullam ac tortor vitae purus faucibus. whereas [@fig:plot-licenses-per-capita] shows...
 
 ```{r plot-pct-hunters, out.width='50%', fig.align='center', echo=F}
 # fw license data
