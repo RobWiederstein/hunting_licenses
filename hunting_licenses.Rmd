@@ -20,8 +20,8 @@ bibliography: references.bib
 nocite: '@*'
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
 # https://learnui.design/tools/data-color-picker.html#palette
 my.palettes <- list(qualitative = c("#4582ec", "#c86edb", "#ff5ca4", "#ff745c", "#ffa600"),
                      sequential = c("#4582ec", "#7499f1", "#98b0f6", "#b9c8fb", "#d9e1ff"),
@@ -31,26 +31,20 @@ my.palettes <- list(qualitative = c("#4582ec", "#c86edb", "#ff5ca4", "#ff745c", 
 ```
 
 ```{r load_file, include=FALSE}
-source("./R/00_main.R")
-file <- "./data_tidy/hunting_licenses_by_state_1960_and_2020.csv"
-df.00 <- data.table::fread(file = file, data.table = F, colClasses = "character")
-df.00$year <- as.integer(df.00$year)
-df.00$value <- as.numeric(df.00$value)
+load_main_dataframe <- function(){
+      source("./R/00_main.R")
+      file <- "./data_tidy/hunting_licenses_by_state_1960_and_2020.csv"
+      colClasses <- c(rep("character", 3), "integer", "character", "numeric")
+      df.00 <- data.table::fread(file = file, data.table = F, colClasses = colClasses)
+      df.00
+}
+df.00 <- load_main_dataframe()
 ```
 
 ```{r load_libraries, include = FALSE}
-# x <- c("ggmap", "rgdal", "rgeos", "maptools", "dplyr", "tidyr", "tmap")
-# #install.packages(x)
-# lapply(x, library, character.only = TRUE)
-library("ggplot2")
-library("dplyr")
-library("magrittr")
-library("ggthemes")
-library("flextable")
-library("officer")
-library("knitr")
-library("kableExtra")
-library(sparkline)
+my.libraries <- list(packages = c("ggplot2", "magrittr", "ggthemes", "flextable", "officer", "knitr", "kableExtra", "sparkline", "ggmap", "rgdal", "rgeos", "maptools", "dplyr", "tidyr", "tmap"))
+lapply(my.libraries$packages, library, character.only = TRUE, quietly = TRUE)
+
 ```
 
 # Question
@@ -125,8 +119,6 @@ Conservations efforts require long term, sustainable and dependable funding sour
 "The bipartisan Recovering America's Wildlife Act establishes a 21st century funding model for the proactive conservation of fish and wildlife. The bill will redirect 1.3 billion in existing revenues to state fish and wildlife agencies to implement their science-driven wildlife action plans, and an additional $97.5 million to tribal wildlife managers to conserve species on tribal."[@allianceforamericasfishwildlifeUsAllianceAmerica] 
 
 States would be required to provide at least 25% in nonfederal matching funds. The source of match can be monetary or in-kind contributions originating from state or local governments or private entities such as conservation organizations, universities, businesses, private landowners, or volunteers." [@allianceforamericasfishwildlifeUsAllianceAmerica: 3]
-
-
 
 Every five years the National Survey of Fishing, Hunting and Wildlife Associated Recreation is conducted.  The last survey in 2016 found that "11.5 million people 16 years and older enjoyed hunting a variety of animals within the United States. They hunted 184 million days and took 147 million trips. Hunting expenditures totaled $26.2 billion."  The survey reported that the national participation rate was four percent with significant regional variation. For example, the New England region had a two percent participation rate while the East South Central region had an eight percent participation rate.
 

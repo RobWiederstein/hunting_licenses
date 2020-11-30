@@ -330,4 +330,4 @@ tidy_up_and_save_data <- function(){
       file <- "./data_tidy/hunting_licenses_by_state_1960_and_2020.csv"
       write.csv(df.04, file = file, row.names = F)
 }
-tidy_up_and_save_data()
+#tidy_up_and_save_data()
