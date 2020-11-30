@@ -8,7 +8,7 @@ knit: (function(input_file, encoding) {
 author: "Robert Wiederstein"
 date: "11/14/2020"
 output:
-  html_document:
+  bookdown::html_document2:
     toc: true
     toc_float: true
     toc_depth: 3
@@ -23,26 +23,11 @@ nocite: '@*'
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 # https://learnui.design/tools/data-color-picker.html#palette
-#visually equidistant
-#4582ec
-#c86edb
-#ff5ca4
-#ff745c
-#ffa600
-#single hue scale
-#4582ec
-#7499f1
-#98b0f6
-#b9c8fb
-#d9e1ff
-#diverging pallette
-#4582ec
-#8da5ef
-#c2caf0
-#f1f1f1
-#f0b8b8
-#e67f83
-#d43d51
+my.palettes <- list(qualitative = c("#4582ec", "#c86edb", "#ff5ca4", "#ff745c", "#ffa600"),
+                     sequential = c("#4582ec", "#7499f1", "#98b0f6", "#b9c8fb", "#d9e1ff"),
+                     diverging = c("#4582ec",  "#8da5ef", "#c2caf0", "#f1f1f1", "#f0b8b8",
+                                   "#e67f83", "#d43d51")
+                     )
 ```
 
 ```{r load_file, include=FALSE}
@@ -200,11 +185,16 @@ Not all variables were carried forward through the period of `r min(df.00$year)`
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget velit aliquet sagittis id consectetur purus ut faucibus pulvinar. Id diam vel quam elementum pulvinar etiam non quam lacus. Consectetur lorem donec massa sapien faucibus et. Pretium nibh ipsum consequat nisl vel pretium lectus. Cras pulvinar mattis nunc sed blandit libero volutpat. Quisque non tellus orci ac auctor augue mauris augue neque. Porttitor rhoncus dolor purus non enim praesent elementum facilisis leo. Semper eget duis at tellus at urna condimentum mattis. Orci eu lobortis elementum nibh tellus molestie. Tortor id aliquet lectus proin nibh nisl condimentum.
 
-Aenean vel elit scelerisque mauris pellentesque pulvinar. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Adipiscing vitae proin sagittis nisl rhoncus mattis. Mi bibendum neque egestas congue quisque egestas diam in. Vel pretium lectus quam id leo in vitae turpis massa. Cursus in hac habitasse platea. Faucibus pulvinar elementum integer enim neque volutpat ac. Sed blandit libero volutpat sed cras ornare arcu dui. In ornare quam viverra orci. Libero justo laoreet sit amet cursus sit amet.
+Aenean vel elit scelerisque mauris pellentesque pulvinar. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Adipiscing vitae proin sagittis nisl rhoncus mattis. Mi bibendum neque egestas congue quisque egestas diam in. Vel pretium lectus quam id leo in vitae turpis massa. Cursus in hac habitasse platea. Faucibus pulvinar elementum integer enim neque volutpat ac. Sed blandit libero volutpat sed cras ornare arcu dui. In ornare quam viverra orci. Libero justo laoreet sit amet cursus sit amet. See \@ref(fig:plot-total-licenses).
+
+Diam volutpat commodo sed egestas. Ac turpis egestas integer eget aliquet nibh. Ultricies mi quis hendrerit dolor. Netus et malesuada fames ac turpis egestas integer eget aliquet. Cras semper auctor neque vitae tempus quam pellentesque nec nam. Morbi tincidunt ornare massa eget egestas purus viverra. Dignissim cras tincidunt lobortis feugiat vivamus at. Gravida rutrum quisque non tellus orci ac. Ornare suspendisse sed nisi lacus sed viverra tellus in hac. Viverra accumsan in nisl nisi scelerisque. Egestas erat imperdiet sed euismod. Netus et malesuada fames ac turpis. Proin libero nunc consequat interdum varius sit amet mattis vulputate. In nibh mauris cursus mattis molestie a iaculis at. Enim facilisis gravida neque convallis a cras semper. Tellus orci ac auctor augue mauris augue neque gravida. Feugiat vivamus at augue eget arcu dictum varius. Potenti nullam ac tortor vitae purus faucibus. See \@ref(fig:plot-licenses-per-capita).
 
 
 
-```{r plot_total_licenses, out.extra='style="float:right; padding:10px"', out.width='50%', echo=FALSE}
+```{r plot-total-licenses, fig.show='hold', fig.align="center", out.width='33%', fig.cap="Certified Paid Hunting License Holders",   echo=FALSE}
+
+par(mar = c(4, 4, .1, .1))
+
 df.01 <- dplyr::filter(df.00, key == "certified_paid_hunting_license_holders")
 
 df.02 <- 
@@ -224,9 +214,72 @@ p <- p + scale_x_continuous(name = "")
 p <- p + ggtitle("Total Number of State Issued Hunting Licenses \n 1960 - 2020")
 p <- p + theme_gdocs()
 p
+df.01 <- dplyr::filter(df.00, key == "per_capita_hunting_license")
+
+df.02 <- 
+      df.01 %>%
+      group_by(year) %>%
+      summarize(per_capita_license = median(value))
+df.02$per_capita_license <- round(df.02$per_capita_license * 1000, 0)
+      
+p <- ggplot(df.02, aes(year, per_capita_license))
+p <- p + geom_line(color = "#4582EC")
+p <- p + geom_point(color = "#4582EC", size = 3)
+p <- p + scale_y_continuous(limits = c(0, 120),
+                            name = "licenses/thousand")
+p <- p + scale_x_continuous(name = "")
+p <- p + ggtitle("Median State Issued Hunting Licenses \n 1960 - 2020")
+p <- p + theme_gdocs()
+p
+
 ```
 
-Diam volutpat commodo sed egestas. Ac turpis egestas integer eget aliquet nibh. Ultricies mi quis hendrerit dolor. Netus et malesuada fames ac turpis egestas integer eget aliquet. Cras semper auctor neque vitae tempus quam pellentesque nec nam. Morbi tincidunt ornare massa eget egestas purus viverra. Dignissim cras tincidunt lobortis feugiat vivamus at. Gravida rutrum quisque non tellus orci ac. Ornare suspendisse sed nisi lacus sed viverra tellus in hac. Viverra accumsan in nisl nisi scelerisque. Egestas erat imperdiet sed euismod. Netus et malesuada fames ac turpis. Proin libero nunc consequat interdum varius sit amet mattis vulputate. In nibh mauris cursus mattis molestie a iaculis at. Enim facilisis gravida neque convallis a cras semper. Tellus orci ac auctor augue mauris augue neque gravida. Feugiat vivamus at augue eget arcu dictum varius. Potenti nullam ac tortor vitae purus faucibus.
+
+```{r, figures-side, fig.show="hold", out.width="50%"}
+par(mar = c(4, 4, .1, .1))
+plot(cars)
+plot(mpg ~ hp, data = mtcars, pch = 19)
+
+```
+
+```{r,echo=FALSE,out.width='.49\\linewidth', fig.width=4, fig.height=3, fig.align='center'}
+
+par(mar=c(4,2,3,0))
+layout(matrix(c(1,2,3),nrow=1), widths=c(0.45,0.1,0.45))
+barplot(1:4)
+plot.new()
+barplot(4:7)
+
+```
+
+```{r new-plot, fig.align="center", fig.cap="wow", echo=FALSE}
+par(mfrow = c(2, 2)) # Create a 2 x 2 plotting matrix
+# The next 4 plots created will be plotted next to each other
+
+# Plot 1
+hist(rnorm(100))
+
+# Plot 2
+plot(rnorm(100), rnorm(100))
+# Plot 3
+hist(rnorm(100))
+# Plot 4
+plot(rnorm(100), rnorm(100))
+
+```
+
+
+```{r,echo=FALSE,out.width='.49\\linewidth', fig.width=3, fig.height=3, fig.align='center'}
+
+library(ggplot2)
+library(gridExtra)
+library(grid)
+
+p1=ggplot(mtcars, aes(wt, mpg)) + geom_point()
+
+grid.arrange(p1, nullGrob(), p1, widths=c(0.45,0.1,0.45))
+
+```
 
 ```{r plot-licenses-per-capita, fig.align="center",  out.width='50%', fig.cap="Median Number of State Hunting Licenses", echo=FALSE}
 
