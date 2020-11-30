@@ -21,6 +21,27 @@ nocite: '@*'
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+# https://learnui.design/tools/data-color-picker.html#palette
+#visually equidistant
+#4582ec
+#c86edb
+#ff5ca4
+#ff745c
+#ffa600
+#single hue scale
+#4582ec
+#7499f1
+#98b0f6
+#b9c8fb
+#d9e1ff
+#diverging pallette
+#4582ec
+#8da5ef
+#c2caf0
+#f1f1f1
+#f0b8b8
+#e67f83
+#d43d51
 ```
 
 ```{r load_file, include=FALSE}
