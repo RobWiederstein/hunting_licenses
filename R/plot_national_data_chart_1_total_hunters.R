@@ -123,21 +123,78 @@ Plot_change_in_hunters_license_to_population <- function(){
         #second series is wr apportionment by hunter (or total population?) in 2020 dollars over time
         #total hunters / wr apportionment over time
 
+#need to convert current dollars to constant dollars--this may not be that hard
 
-df.01 <- dplyr::filter(df.00, key == "per_capita_hunting_license")
-
-df.02 <- 
-        df.01 %>%
+#Add main dataframe
+file <- "./data_tidy/hunting_licenses_by_state_1960_and_2020.csv"
+colClasses <- c(rep("character", 3), "integer", "character", "numeric")
+df.00 <- data.table::fread(file = file, data.table = F, colClasses = colClasses)
+#total cost to hunters
+df.01 <- dplyr::filter(df.00, key == "total_gross_cost_to_hunters")
+df.02 <-df.01 %>%
         group_by(year) %>%
-        summarize(per_capita_license = median(value))
-df.02$per_capita_license <- round(df.02$per_capita_license * 1000, 0)
+        summarize(total_cost = sum(value))
+#total hunters by year
+df.03 <- dplyr::filter(df.00, key == "certified_paid_hunting_license_holders")
+df.04 <- df.03 %>%
+        group_by(year) %>%
+        summarize(total_hunters = sum(value))
+#merge
+df.05 <- merge(df.02, df.04)
+#total cost per hunter
+df.05$cost_per_hunter <- df.05$total_cost / df.05$total_hunters
+df.05 <- dplyr::select(df.05, year, cost_per_hunter)
+df.06 <- tidyr::gather(df.05, key = key, value = value, -year)
+#total cost per person
+df.07 <- dplyr::filter(df.00, key == "pop")
+df.08 <- df.07 %>%
+        group_by(year) %>%
+        summarize(total_pop = sum(value))
+df.09 <- merge(df.02, df.08)
+df.09$cost_per_person <- df.09$total_cost / df.09$total_pop
+df.09 <- dplyr::select(df.09, year, cost_per_person)
+df.09 <- tidyr::gather(df.09, key = key, value = value, -year)
+#join cost_per_hunter to cost_per_person
+df.10 <- rbind(df.06, df.09)
 
-p <- ggplot(df.02, aes(year, per_capita_license))
-p <- p + geom_line(color = "#4582EC")
-p <- p + geom_point(color = "#4582EC", size = 3)
-p <- p + scale_y_continuous(limits = c(0, 120),
-                            name = "licenses/thousand")
-p <- p + scale_x_continuous(name = "")
-p <- p + ggtitle("Median State Issued Hunting Licenses \n 1960 - 2020")
+#build inflation adjusted series for comparison
+df.infl <- data.frame(total_cost_1970 = 101608879,
+                      const_dol_2020 = 681900329.51,
+                      total_hunt_1970 = 15658318,
+                      total_hunt_2020 = 15151724,
+                      total_pop_1970 = 202455416,
+                      total_pop_2020 = 331794992,
+                      infl_adj_cost_per_hunter_1970 = 101608879 / 15658318,
+                      infl_adj_cost_per_hunter_2020 = 681900329.51 / 15151724,
+                      infl_adj_cost_per_person_1970 = 101608879 / 202455416,
+                      infl_adj_cost_per_person_2020 = 681900329.51 / 331794992
+)
+df.infl <- tidyr::gather(df.infl, key = key, value = value)
+df.infl$year <- stringr::str_sub(df.infl$key, -4)
+df.infl$year <- as.integer(df.infl$year)       
+df.infl$key  <-gsub("_1970|_2020", "", df.infl$key)
+df.infl <- df.infl[grep("infl_adj", df.infl$key), ]
+#plot
+p <- ggplot(df.10, aes(year, value, group = key, colour = key))
+p <- p + geom_line()
+p <- p + geom_point(size = 3)
+p <- p + scale_y_continuous(name = "",
+                        limits = c(0, 60),
+                        breaks = c(0, 15, 30, 45, 60)
+                        )
+p <- p + scale_color_manual(values=c("#4582EC", "#ffa600", "#ff5ca4", "#c86edb"))
+p <- p + geom_line(data = df.infl, aes(year, value, group = key, colour = key))
+p <- p + geom_point(data = df.infl, aes(year, value, group = key, colour = key), size = 3)
 p <- p + theme_gdocs()
+p <- p + scale_x_continuous(name = "", 
+                            limits = c(1960, 2020))
+p <- p + ggtitle("Gross Cost Per Hunter and Per Capita \n1970-2020")
+filename <- "./figs/gross_cost_per_hunter_per_capita_1970_2020.jpg"
+ggsave(p, filename = filename, height = 5, width = 8, dpi = 300, units = "in")
 p
+
+
+
+
+
+
