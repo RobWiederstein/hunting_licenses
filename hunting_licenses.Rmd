@@ -404,11 +404,28 @@ Hunting license issuance among the states for the 1960 to 2020 years declined.  
 
 # Bibliography
 
+<div id="refs"></div>
+
 # Appendix
+
+## Annual Wildlife Restoration Apportionment
 
 ```{r facet-plot-wr-allocation, echo=FALSE, out.width="100%"}
 
 knitr::include_graphics("./figs/annual_wildlife_restoration_funding_by_state_1939_2020.jpg")
 
+```
+
+## Directory of Fish & Wildlife Associations
+
+[Directory of state F&W offices](https://www.fws.gov/info/pocketguide/sfwacontacts.html)
+
+## Sortable Table with html widgets
+
+```{r sortable-table}
+#install.packages('webshot')
+library('webshot')
+webshot::install_phantomjs()
+DT::datatable(iris)
 ```
 
