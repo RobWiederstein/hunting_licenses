@@ -54,14 +54,17 @@ Hunting as a pastime is declining in the United States.^[The views, analysis and
 
 # Background
 
+Hunting is a significant source of entertainment, excercise, camraderie, and nourishment for many Americans, especially those living in rural locations where leisure opportunities are scarce and wildlife more prevalent.  Every five years the National Survey of Fishing, Hunting and Wildlife Associated Recreation is conducted by the U.S. Fish and Wildlife and the U.S. Census.  The last survey in 2016 found that "11.5 million people 16 years and older enjoyed hunting a variety of animals within the United States. They hunted 184 million days and took 147 million trips. Hunting expenditures totaled $26.2 billion."  The survey reported that the national participation rate was four percent with significant regional variation. For example, the New England region had a two percent participation rate while the East South Central region had an eight percent participation rate. Given its popularity and economic impact, hunting is rightfully the subject of intense study.
+
+
 ## Wildlife as Public Resource
 
-The Public Trust Doctrine (PTD) is considered to be the cornerstone of the North American Model of Wildlife Conservation (AMWC). The doctrine posits that "wildlife is owned by no one and held in trust by governments for the present and future benefit of its citizens."[@jacobsonConservationInstitution21st2010]  It was first recognized by the United States Supreme Court in the seminal case Martin vs. Waddell's Lessee, 41 U.S. 367 (1842). There, the Court held "that the *public held a common right* to fish in navigable and tidal waters of New Jersey because they and their underlying lands *were owned by the state for the common use by the people*." [@thewildlifesocietyPublicTrustDoctrine2010]  Since the government is entrusted with the public's assets, it has a responsiblity as trustee and fiduciary to safeguard them for the long term benefit of the public.[@thewildlifesocietyPublicTrustDoctrine2010]
+Wildlife is a public resource and should be managed prudently.  The Public Trust Doctrine (PTD) is considered to be the cornerstone of the North American Model of Wildlife Conservation (AMWC). The doctrine posits that "wildlife is owned by no one and held in trust by governments for the present and future benefit of its citizens."[@jacobsonConservationInstitution21st2010]  It was first recognized by the United States Supreme Court in the seminal case Martin vs. Waddell's Lessee, 41 U.S. 367 (1842). There, the Court held "that the *public held a common right* to fish in navigable and tidal waters of New Jersey because they and their underlying lands *were owned by the state for the common use by the people*." [@thewildlifesocietyPublicTrustDoctrine2010]  Since the government is entrusted with the public's assets, it has a responsiblity as trustee and fiduciary to safeguard them for the long term benefit of the public.[@thewildlifesocietyPublicTrustDoctrine2010]
 
 
 ## U.S. Conservation Movement
 
-The American Conservation movement was extensive and broadly embraced by the public.  The Library of Congress assembled a collection from 1850 to 1920 that, when narrowed to just Congressional and Presidential action, consisted of "140 Federal statutes and Congressional resolutions, 34 additional legislative documents, excerpts from the Congressional Globe and the Congressional Record [and] 360 Presidential proclamations." This paper will address only a couple of the most significant legislative enactments during the U.S. Conservation Movement.  These are relevant to the funding of state-level conservation efforts.
+The 19th and early 20th century ushered in an era of conservation of both habitat and wildlife.  Hailed as the "American Conservation movement", it was extensive and broadly embraced by the public.  The Library of Congress assembled a collection of materials from 1850 to 1920 that, when narrowed to just Congressional and Presidential actions, consisted of "140 Federal statutes and Congressional resolutions, 34 additional legislative documents, excerpts from the Congressional Globe and the Congressional Record [and] 360 Presidential proclamations." This paper will address only a couple of the most significant legislative enactments during the U.S. Conservation Movement.  These are relevant to the funding of state-level conservation efforts.
 
 [Library of Congress Evolution of the Conservation Movement 1850-1920](https://memory.loc.gov/ammem/amrvhtml/conshome.html)
 
@@ -91,6 +94,9 @@ Wildlife management is divided between the federal government and individual sta
 
 Proferred reasons for the decline include aging of hunting population, increased urbanization, change in consumer preferences . . .
 
+Various explanations for the decline in hunting have been tendered. Researchers found evidence that more people opt for electronic entertainment and urban living as explanations for the decline in hunting. [@robisonWhitherLoveHunting2012]
+
+
 ## Declining Fees and Taxes
 
 "Fish and wildlife conservation funding in the U.S., at least at the state level, typically is characterized as a user-pay, user-benefit model." [@organWildlifeSocietyTechnical2012] "From the earliest days of active management and enforcement by nascent state fish and wildlife agencies, hunters, anglers, and trappers have funded restoration and conservation initiatives."[@organWildlifeSocietyTechnical2012] Conservation efforts are generally financed through two sources: the sale of hunting licenses from the state and the sale of firearms.  Though smaller resources also add to conservation efforts.  To this day, the combination of sportsmen-derived funds from hunting licenses and gun sales comprise between 60 and 90 percent of the typical state fish and wildlife agency budget.[@organWildlifeSocietyTechnical2012] Some wildlife agencies' budgets, however, rely on even higher percentages of revenue from sportsmen.  States, like Texas, fund 97% of its conservation efforts from these two sources.[@bravermanConservationHuntingTill2015]
@@ -117,16 +123,6 @@ Conservations efforts require long term, sustainable and dependable funding sour
 "The bipartisan Recovering America's Wildlife Act establishes a 21st century funding model for the proactive conservation of fish and wildlife. The bill will redirect 1.3 billion in existing revenues to state fish and wildlife agencies to implement their science-driven wildlife action plans, and an additional $97.5 million to tribal wildlife managers to conserve species on tribal."[@allianceforamericasfishwildlifeUsAllianceAmerica] 
 
 States would be required to provide at least 25% in nonfederal matching funds. The source of match can be monetary or in-kind contributions originating from state or local governments or private entities such as conservation organizations, universities, businesses, private landowners, or volunteers." [@allianceforamericasfishwildlifeUsAllianceAmerica: 3]
-
-Every five years the National Survey of Fishing, Hunting and Wildlife Associated Recreation is conducted.  The last survey in 2016 found that "11.5 million people 16 years and older enjoyed hunting a variety of animals within the United States. They hunted 184 million days and took 147 million trips. Hunting expenditures totaled $26.2 billion."  The survey reported that the national participation rate was four percent with significant regional variation. For example, the New England region had a two percent participation rate while the East South Central region had an eight percent participation rate.
-
-<center>
-
-![2016 National Survey of Fishing, Hunting, and Wildlife-Associated Recreation, showing regional variation in hunting participation rates.](./img/2016_fish_wildlife_report.png){#id .class width=75% height=75%}
-
-</center>
-
-Various explanations for the decline in hunting have been tendered. Researchers found evidence that more people opt for electronic entertainment and urban living as explainations for the decline in hunting. [@robisonWhitherLoveHunting2012]
 
 # Data Sources
 
@@ -305,10 +301,9 @@ plot_change_in_hunters_license_to_population <- function(){
 plot_change_in_hunters_license_to_population()
 ```
 
-Aenean vel elit scelerisque mauris pellentesque pulvinar. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Adipiscing vitae proin sagittis nisl rhoncus mattis. Mi bibendum neque egestas congue quisque egestas diam in. Vel pretium lectus quam id leo in vitae turpis massa. Cursus in hac habitasse platea. Faucibus pulvinar elementum integer enim neque volutpat ac. Sed blandit libero volutpat sed cras ornare arcu dui. In ornare quam viverra orci. Libero justo laoreet sit amet cursus sit amet. See \@ref(fig:hunting-population-increase).
+Aenean vel elit scelerisque mauris pellentesque pulvinar. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Adipiscing vitae proin sagittis nisl rhoncus mattis. Mi bibendum neque egestas congue quisque egestas diam in. Vel pretium lectus quam id leo in vitae turpis massa. Cursus in hac habitasse platea. Faucibus pulvinar elementum integer enim neque volutpat ac. Sed blandit libero volutpat sed cras ornare arcu dui. In ornare quam viverra orci. Libero justo laoreet sit amet cursus sit amet. See \@ref(fig:figures-side-by-side).
 
 ```{r figures-side-by-side, fig.show="hold", out.width="50%", message=FALSE, warning=FALSE, fig.cap='Gross cost per hunter and per person compared to inflation. Notice the y-axis showing that the per person cost is less than $3.00'}
-par(mar = c(4, 4, .1, .1))
 plot_cost_per_hunter_idx_for_inflation <- function(){
         library(ggthemes)
         create_df_cost_per_hunter <- function(){
@@ -566,8 +561,6 @@ p
 knitr::include_graphics( "./figs/us-avg-annual-pct-change-per-capita-hunter-1960-2020.jpg")
 ```
 
-## Forecast
-
 ## Further Research
 
 2014 Allocation of gun revenue plotted compared to hunter license data.  A floor and ceiling is set within the allocation forumula as well as territorial size.
@@ -604,6 +597,8 @@ knitr::include_graphics("./figs/annual_wildlife_restoration_funding_by_state_193
 #install.packages('webshot')
 library('webshot')
 webshot::install_phantomjs()
-DT::datatable(iris)
+df <- read.csv(file = "./data_tidy/delete_this_dataframe.csv", header = T)
+#DT::datatable(iris)
+DT::datatable(df, escape = FALSE)
 ```
 
