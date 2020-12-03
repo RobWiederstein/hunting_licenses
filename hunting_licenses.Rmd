@@ -482,6 +482,7 @@ plot_cost_per_person_idx_for_inflation <- function(){
 }
 p2 <- plot_cost_per_person_idx_for_inflation()
 p2
+#
 ```
 Aenean vel elit scelerisque mauris pellentesque pulvinar. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Adipiscing vitae proin sagittis nisl rhoncus mattis. Mi bibendum neque egestas congue quisque egestas diam in. Vel pretium lectus quam id leo in vitae turpis massa. Cursus in hac habitasse platea. Faucibus pulvinar elementum integer enim neque volutpat ac. Sed blandit libero volutpat sed cras ornare arcu dui. In ornare quam viverra orci. Libero justo laoreet sit amet cursus sit amet. See \@ref(fig:hunting-population-increase).
 ## State-level
