@@ -48,4 +48,4 @@ df <- data.frame(do.call(rbind, a), stringsAsFactors = F)
 
 #write to file
 file <- "./data_pure/loc/library_of_congress_legal_directory_american_conservation_movement.csv"
-write.csv(df, file = file, row.names = F)
+write.csv(df, file = file, row.names = T)
