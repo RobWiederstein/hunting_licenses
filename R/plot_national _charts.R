@@ -1,4 +1,4 @@
-par(mar = c(4, 4, .1, .1))
+#these plots were constructed here and copied into the .Rmd
 
 #plot 1 -- total hunters
 plot_total_hunting_licenses <- function(){
