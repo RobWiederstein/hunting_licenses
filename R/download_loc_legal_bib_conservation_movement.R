@@ -45,6 +45,7 @@ a <- sapply(lc_urls, build_list)
 
 #convert to dataframe
 df <- data.frame(do.call(rbind, a), stringsAsFactors = F)
+df$X5 <- rownames(df)
 
 #write to file
 file <- "./data_pure/loc/library_of_congress_legal_directory_american_conservation_movement.csv"
