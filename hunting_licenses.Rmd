@@ -591,14 +591,18 @@ knitr::include_graphics("./figs/annual_wildlife_restoration_funding_by_state_193
 [Directory of state F&W offices](https://www.fws.gov/info/pocketguide/sfwacontacts.html)
 [State and Territorial Fish and Wildlife Offices](https://www.fws.gov/offices/statelinks.html)
 
-## Sortable Table with html widgets
+## Federal Action in Conservation 1850 - 1920
 
-```{r sortable-table, warning=FALSE, message=FALSE}
+```{r library-of-congress-conservation-bib, warning=FALSE, message=FALSE}
 #install.packages('webshot')
 library('webshot')
 webshot::install_phantomjs()
-df <- read.csv(file = "./data_tidy/delete_this_dataframe.csv", header = T)
+df <- read.csv(file = "./data_tidy//loc_bibliography_conservation.csv", 
+               header = T,
+               stringsAsFactors = F)
+df.01 <- dplyr::select(df, date, cite_1, type, summary_1)
 #DT::datatable(iris)
-DT::datatable(df, escape = FALSE)
+#DT:::DT2BSClass('display')
+DT::datatable(df.01, escape = FALSE, style = 'bootstrap', class = "table table-striped", rownames = FALSE)
 ```
 

@@ -1,3 +1,4 @@
+library(stringr)
 file <- "./data_pure/loc/library_of_congress_legal_directory_american_conservation_movement.csv"
 df <- data.table::fread(file = file, data.table = F, header = T)
 df <- df[, -ncol(df)]
@@ -41,7 +42,7 @@ df$created_1 <- df$created
 df$created_1 <- gsub("\nCREATED/PUBLISHED ", "", df$created_1)
 df$created_1 <- str_extract(df$created_1, "[^1|2]+")
 a <- str_split(df$created_1, ":|\\.")
-a <- lapply(a, stringr::str_trim, side = "both")
+a <- lapply(a, str_trim, side = "both")
 #country
 df$country <- unlist(lapply(a, "[", 1))
 #state
@@ -55,9 +56,11 @@ df$publisher <- gsub("Washington \\[n", "unknown", df$publisher)
 df$summary_1 <- gsub("\nSUMMARY ", "", df$summary) #title
 df$summary_1 <- gsub("\"", "", df$summary_1)
 df$summary_1 <- stringr::str_trim(side = "both")
-df$summary_1[sample(1:nrow(df), 5)]
-
+#notes
+df$notes_1 <- gsub("\nNOTES", "", df$notes)
+#title
 df$title <- stringr::str_extract(df$cite, 'An Act.*[.]')
+#write-out
 file <- "./data_tidy/loc_bibliography_conservation.csv"
 write.csv(df, file = file, row.names = F)
 
