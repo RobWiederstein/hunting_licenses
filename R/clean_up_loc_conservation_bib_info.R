@@ -12,7 +12,7 @@ df$date <- as.Date(df$date)
 #amt
 df$amt <- 1
 #classify cites into the following categories:
-df$type <- ""
+df$action <- ""
 classifications <-c("Debates and Proceedings", 
                     "Senate Report", 
                     "House Report", 
@@ -20,23 +20,23 @@ classifications <-c("Debates and Proceedings",
                     "Senate Executive Document", 
                     "Senate Document",
                     "Joint Resolution",
-                    "An [Aa]ct",
+                    "An Act",
                     "Proclamation"
   )
 #554 out of 555 classified
 l.cat <- sapply(classifications, grep, df$cite)
-df$type[l.cat$`Debates and Proceedings`] <- 1
-df$type[l.cat$`Senate Report`] <- 2
-df$type[l.cat$`House Report`] <- 3
-df$type[l.cat$`Senate Miscellaneous Document`] <- 4
-df$type[l.cat$`Senate Executive Document`] <- 5
-df$type[l.cat$`Senate Document`] <- 6
-df$type[l.cat$`Joint Resolution`] <- 7
-df$type[l.cat$`An [Aa]ct`] <- 8
-df$type[l.cat$Proclamation] <- 9
-df$type[which(df$type == "")] <- 7 #all accounted for
-df$type <- factor(df$type, labels = classifications)
-
+df$action[l.cat$`Debates and Proceedings`] <- 1
+df$action[l.cat$`Senate Report`] <- 2
+df$action[l.cat$`House Report`] <- 3
+df$action[l.cat$`Senate Miscellaneous Document`] <- 4
+df$action[l.cat$`Senate Executive Document`] <- 5
+df$action[l.cat$`Senate Document`] <- 6
+df$action[l.cat$`Joint Resolution`] <- 7
+df$action[l.cat$`An Act`] <- 8
+df$action[l.cat$Proclamation] <- 9
+df$action[which(df$action == "")] <- 7 #all accounted for
+df$action <- factor(df$action, labels = classifications)
+levels(df$action)[8] <- "Law Passed"
 #created
 df$created_1 <- df$created
 df$created_1 <- gsub("\nCREATED/PUBLISHED ", "", df$created_1)
@@ -55,11 +55,13 @@ df$publisher <- gsub("Washington \\[n", "unknown", df$publisher)
 #summary
 df$summary_1 <- gsub("\nSUMMARY ", "", df$summary) #title
 df$summary_1 <- gsub("\"", "", df$summary_1)
-df$summary_1 <- stringr::str_trim(side = "both")
+df$summary_1 <- stringr::str_trim(df$summary_1, side = "both")
 #notes
 df$notes_1 <- gsub("\nNOTES", "", df$notes)
 #title
 df$title <- stringr::str_extract(df$cite, 'An Act.*[.]')
+#cite_1 wrap in <a href = [url]>cite</a>
+df$cite_1 <- paste("<a href=", df$url, ">", df$cite, "</a>", sep = "")
 #write-out
 file <- "./data_tidy/loc_bibliography_conservation.csv"
 write.csv(df, file = file, row.names = F)
