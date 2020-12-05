@@ -60,8 +60,8 @@ df$summary_1 <- stringr::str_trim(df$summary_1, side = "both")
 df$notes_1 <- gsub("\nNOTES", "", df$notes)
 #title
 df$title <- stringr::str_extract(df$cite, 'An Act.*[.]')
-#cite_1 wrap in <a href = [url]>cite</a>
-df$cite_1 <- paste("<a href=", df$url, ">", df$cite, "</a>", sep = "")
+#cite_1 wrap in <a href = [url]>cite</a> --won't work.  urls were to temp files
+#df$cite_1 <- paste("<a href=", df$url, ">", df$cite, "</a>", sep = "")
 #write-out
 file <- "./data_tidy/loc_bibliography_conservation.csv"
 write.csv(df, file = file, row.names = F)
