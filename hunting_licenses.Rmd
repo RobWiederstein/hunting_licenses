@@ -70,25 +70,70 @@ Since the government under American law is entrusted with the public's assets, i
 
 ## U.S. Conservation Movement
 
-The 19th and early 20th century ushered in an era of conservation of both habitat and wildlife.  Hailed as the "American Conservation movement", it was extensive and broadly embraced by the public.  The Library of Congress assembled a collection of materials from 1850 to 1920 that, when narrowed to just Congressional and Presidential actions, consisted of "140 Federal statutes and Congressional resolutions, 34 additional legislative documents, excerpts from the Congressional Globe and the Congressional Record [and] 360 Presidential proclamations." For more details on Legislative and Executive Branch action, see the frequency plot at \@ref(fig:plot-law-library-collection) and the full table of bibliographic references with summary at \@ref(fig:library-of-congress-conservation-bib). This paper will address only a couple of the most significant legislative enactments during the U.S. Conservation Movement.  These are relevant to the funding of state-level conservation efforts.
+Many commentators date the modern U.S. Conservation movement with  the establishment of the first national park.  In 1872, a bill creating Yellowstone National Park was signed into law by President Ulysses S. Grant. American sportsmen were the catalyst for the U.S. conservation movement who saw the waste of wildlife and habitat as a cause for the extinction of some species and sought to preserve others.[@reigerAmericanSportsmenOrigins2000].  Westward expansion of the railroad and the associated extinction of wildlife species catalyzed the American conservationists.  The loss of the passenger pigeon 1916 and the near extirpation of the bison brought an urgency to preserve the environment.
 
-[Library of Congress Evolution of the Conservation Movement 1850-1920](https://memory.loc.gov/ammem/amrvhtml/conshome.html)
+The 19th and early 20th century ushered in an era of conservation of both habitat and wildlife.  Hailed as the "American Conservation movement", it was extensive and broadly embraced by the public.  The Library of Congress assembled a [collection](https://memory.loc.gov/ammem/amrvhtml/conshome.html) of materials from 1850 to 1920 that, when narrowed to just Congressional and Presidential actions, consisted of "140 Federal statutes and Congressional resolutions, 34 additional legislative documents, excerpts from the Congressional Globe and the Congressional Record [and] 360 Presidential proclamations." (For more details on Legislative and Executive Branch action, see the frequency plot at \@ref(fig:plot-law-library-collection) and the table of bibliographic references with summary at \@ref(fig:library-of-congress-conservation-bib).) 
 
-Many commentators date the modern U.S. Conservation movement with  the establishment of the first national park.  In 1872, a bill creating Yellowstone National Park was signed into law by President Ulysses S. Grant. American sportsmen were the catalyst for the U.S. conservation movement who saw the waste of wildlife and habitat as a cause for the extinction of some species and sought to preserve others.[@reigerAmericanSportsmenOrigins2000].  Extinction of the passenger pigeon and extirpation of the bison.
+```{r plot-law-library-collection, fig.cap="Plot shows that a large portion of federal action occurred in the twenty years between 1900 and 1920. Data taken from the Library of Congress Evolution of the Conservation Movement [website.](http://memory.loc.gov/ammem/amrvhtml/conshome.html)", fig.align="center", out.width="65%", fig.topcaption = TRUE, warning=FALSE, message=FALSE}
 
-The early 1900s and future president of the United States Teddy Rosevelt was a prominent spokesperson and advocate.[@reigerAmericanSportsmenOrigins2000]
+plot_library_of_congress_bib_by_date_and_type <- function(){
+library(ggthemes)
+file <- "./data_tidy/loc_bibliography_conservation.csv"
+df <- read.csv(file =  file, header = T, stringsAsFactors = F)
+df.01 <- dplyr::select(df, date, action, amt)
+df.01$date <- as.Date(df.01$date, format = "%Y-%m-%d")
+df.01$action[grep("Senate", df.01$action)] <- "Senate Document"
+df.02 <-    df.01 %>%
+      mutate(year = format(date, "%Y")) %>%
+      group_by(year, action) %>%
+      summarise(total = sum(amt)) %>%
+      arrange(year, total)
+df.02$year <- as.Date(df.02$year, format = "%Y")
+df.02$action <- factor(df.02$action, levels = c("Senate Document", "House Report", "Debates and Proceedings", 
+                                            "Joint Resolution", "Law Passed", "Proclamation")
+)
+# set levels to: dput(dimnames(sort(table(df.01$action)))[[1]]) Ha!
+#plot
+p <- ggplot(df.02, aes(fill=action, y=total, x=year))
+p <- p + geom_bar(position="stack", stat="identity")
+p <- p + scale_x_date(name = "",
+                      limits = as.Date(c("1860", "1921"), format = "%Y"),
+                      breaks = as.Date(c("1860", "1880", "1900", "1920"), format = "%Y"),
+                      #date_breaks = "10 years",
+                      date_labels = "%Y"
+)
+# p <- p + scale_fill_manual(values = c("#f860bd", "#ff6088", "#ff7d4e", "#b473e2", "#ffa600", "#4582ec")
+# )
+p <- p + scale_fill_manual(values = c('#4daf4a','#984ea3','#ff7f00','#ffff33','#e41a1c','#377eb8'))
+p <- p + scale_y_continuous(name = "")
+p <- p + ggtitle("U.S. Government Action in  Conservation\n1860 - 1920")
+p <- p + theme_stata(scheme = "s1color")
+p <- p + annotate("text", x = as.Date("1872-03-01", format = "%Y-%m-%d"),
+                  y = 8,
+                  label = "Yellowstone")
+filename <- "./figs/us_government_action_in_conservation_1860_1920.jpg"
+ggsave(p, filename = filename, height = 5, width = 8, unit = "in")
+p
+}
+plot_library_of_congress_bib_by_date_and_type()
 
-The Organic Act of 1916 created the National Park Service and charged them to "promote and regulate . . . the national parks, monuments and reservations" consistent with their purpose "to conserve the scenery and the natural and historic objects and wildlife therein, and to provide for the enjoyment of the same in such manner and by such means as will leave them unimpaired for the enjoyment of future generations."
+```
+
+The subjects of the various federal actions included the acquisition of land to be set aside for national parks, the establishment of a national park service, irrigation of the arid lands of the West, the granting of railroad right-of-way through federal lands, the regulation of seal hunting and other fur bearing animals in the "District" of Alaska, the establishment of fish hatcheries, protection of trees on federal lands from the harvesting of pitch or turpentine, regulation of the sale and harvest of sponges from the Gulf of Mexico, the study of Texas oyster beds, the protection of migratory birds,  and the creation of a  commission on the construction and use of water power--among the many, many actions.
+
+Several federal enactments would have lasting and profound impact on state conservation efforts.  Speecifically, the creation of the **U.S. Fish and Wildlife Service, the Pittman-Robertson Act and the Dingell-Johnson Act**.
+
+Currently housed with the Department of the Interior, the history of the U.S. Fish and Wildlife Service (FWS) spans 150 years. It began as a merger between two agencies that were formed much earlier, during the period mentioned above.  The Office of the Commission of Fish and Fisheries (established 1871) was combined with the Bureau of the Biological Survey (established 1885).  Ultimately, the offices were consolidated withinn DOI in 1939 and renamed the "Fish and Wildlife Service".  The agency is crucial to state-level fish and wildlife agencies in that it acts as the "flow-through" entity for the administration of two important programs: the Pittman-Robertson Federal Aid in Wildlife Restoration Act (hunting) and the Dingell-Johnson Act (fishing).
+
+
+
+
+
+Funding of state conservation efforts through 
 
 Finally in 1937, the Pittman–Robertson Federal Aid in Wildlife Restoration Act became law, providing funding for state agencies to carry out  conservation efforts. The Pittman–Robertson Act took over a preëxisting 11% excise tax on firearms and ammunition. Instead of going into the U.S. Treasury as it had done in the past, the money generated by the tax is instead given to the Secretary of the Interior to distribute to the states via the Federal Aid to Wildlife Fund. This topic will be discussed in section The Act is widely credited for restoring the populations of white-tailed deer, wild turkeys and wood ducks. Other animals like American black bears, elk, and cougars have expanded their ranges. The act will be discussed in greater detail in section \@ref(federal-taxes)
 
 Due to the success of the Pittman–Robertson Act, a similar act was proposed for the protection of fish species, titled his act was titled the Federal Aid in Sports Fish Restoration Act. 
-
-## Decline of Hunting
-
-According to an article in Outdoor Life, hunting reached its peak in 1982 when nearly 17 million hunters purchased 28.3 million licenses. Additionally, persons born between the years 1946 and 1964, commonly referred to as the "Baby Boomers", are the largest cohort of hunters and will age out of the sport in the next 15 years.[@krebsWhyWeSuck2019]  The decline was acknowledged and projected to continue in Wisconsin deer hunters through 2030. [@winklerFutureHuntingAgeperiodcohort2013]
-
-In a 2012 study of Wisconsin deer hunters, researchers projected 10% decline through 2020 and an additional 18% decline from 2020 to 2030. [@winklerFutureHuntingAgeperiodcohort2013]
 
 ## State Role in Conservation
 
@@ -125,6 +170,12 @@ The Association of Fish and Wildlife Agencies recently surveyed its members from
 - 5.6 billion dollars in combined budgets
 
 The survey cited as a "major problem" the fact that most citizens do not realize that conservation efforts are primarily shouldered by state fish and wildlife agencies. [@associationoffishwildlifeagenciesStateConservationMachine2017] The table \@ref(tab:state-conservation-funding-sources) at right shows funding by source with hunter licensing fees and Pittman-Robertson funs being the two larges revenue sources.
+
+## Decline of Hunting
+
+According to an article in Outdoor Life, hunting reached its peak in 1982 when nearly 17 million hunters purchased 28.3 million licenses. Additionally, persons born between the years 1946 and 1964, commonly referred to as the "Baby Boomers", are the largest cohort of hunters and will age out of the sport in the next 15 years.[@krebsWhyWeSuck2019]  The decline was acknowledged and projected to continue in Wisconsin deer hunters through 2030. [@winklerFutureHuntingAgeperiodcohort2013]
+
+In a 2012 study of Wisconsin deer hunters, researchers projected 10% decline through 2020 and an additional 18% decline from 2020 to 2030. [@winklerFutureHuntingAgeperiodcohort2013]
 
 ## Reasons for Decline
 
@@ -679,47 +730,7 @@ knitr::include_graphics("./figs/annual_wildlife_restoration_funding_by_state_193
 
 The Library of Congress compiled a wide ranging collection of materials documenting the conservation movement. The collection, entitled "The Evolution of the Conservation Era 1850 to 1920", can be found on its [website](http://memory.loc.gov/ammem/amrvhtml/conshome.html). The Law Library of the Library of Congress contributed 555 separate documents for the collection.  Those materials are referenced here and serve as the basis for both the plot and the table below.  
 
-```{r plot-law-library-collection, fig.cap="Plot shows that the vast majority of federal legislation occurred [in](https://google.com) the twenty years between 1900 and 1920.", fig.align="center", out.width="65%", fig.topcaption = TRUE, warning=FALSE, message=FALSE}
 
-plot_library_of_congress_bib_by_date_and_type <- function(){
-library(ggthemes)
-file <- "./data_tidy/loc_bibliography_conservation.csv"
-df <- read.csv(file =  file, header = T, stringsAsFactors = F)
-df.01 <- dplyr::select(df, date, action, amt)
-df.01$date <- as.Date(df.01$date, format = "%Y-%m-%d")
-df.01$action[grep("Senate", df.01$action)] <- "Senate Document"
-df.02 <-    df.01 %>%
-      mutate(year = format(date, "%Y")) %>%
-      group_by(year, action) %>%
-      summarise(total = sum(amt)) %>%
-      arrange(year, total)
-df.02$year <- as.Date(df.02$year, format = "%Y")
-df.02$action <- factor(df.02$action, levels = c("Senate Document", "House Report", "Debates and Proceedings", 
-                                            "Joint Resolution", "Law Passed", "Proclamation")
-)
-# set levels to: dput(dimnames(sort(table(df.01$action)))[[1]]) Ha!
-#plot
-p <- ggplot(df.02, aes(fill=action, y=total, x=year))
-p <- p + geom_bar(position="stack", stat="identity")
-p <- p + scale_x_date(name = "",
-                      limits = as.Date(c("1860", "1921"), format = "%Y"),
-                      breaks = as.Date(c("1860", "1880", "1900", "1920"), format = "%Y"),
-                      #date_breaks = "10 years",
-                      date_labels = "%Y"
-)
-# p <- p + scale_fill_manual(values = c("#f860bd", "#ff6088", "#ff7d4e", "#b473e2", "#ffa600", "#4582ec")
-# )
-p <- p + scale_fill_manual(values = c('#4daf4a','#984ea3','#ff7f00','#ffff33','#e41a1c','#377eb8'))
-p <- p + scale_y_continuous(name = "")
-p <- p + ggtitle("U.S. Government Action in  Conservation\n1860 - 1920")
-p <- p + theme_gdocs()
-filename <- "./figs/us_government_action_in_conservation_1860_1920.jpg"
-ggsave(p, filename = filename, height = 5, width = 8, unit = "in")
-p
-}
-plot_library_of_congress_bib_by_date_and_type()
-
-```
 
 
 ```{r library-of-congress-conservation-bib, fig.topcaption=TRUE, fig.cap="Table of U.S. Legislative and Executive Branch Actions in conservation from 1850 to 1920.",  warning=FALSE, message=FALSE}
