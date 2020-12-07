@@ -70,9 +70,9 @@ Since the government under American law is entrusted with the public's assets, i
 
 ## U.S. Conservation Movement
 
-Many commentators date the modern U.S. Conservation movement with  the establishment of the first national park.  In 1872, a bill creating Yellowstone National Park was signed into law by President Ulysses S. Grant. American sportsmen were the catalyst for the U.S. conservation movement who saw the waste of wildlife and habitat as a cause for the extinction of some species and sought to preserve others.[@reigerAmericanSportsmenOrigins2000].  Westward expansion of the railroad and the associated extinction of wildlife species catalyzed the American conservationists.  The loss of the passenger pigeon 1916 and the near extirpation of the bison brought an urgency to preserve the environment.
+Many commentators point to the establishment of the first national park as the origin of the U.S. conservation movement. In 1872, a bill creating Yellowstone National Park was signed into law by President Ulysses S. Grant. American sportsmen were the catalyst for the U.S. conservation movement who saw the waste of wildlife and habitat as a cause for the extinction of some species and sought to preserve others.[@reigerAmericanSportsmenOrigins2000].  Westward expansion of the railroad and its associated decimation of wildlife mustered  American conservationists.  The loss of the passenger pigeon 1916 and the near extirpation of the bison added to the urgency and demonstrated the fragility of the environment. 
 
-The 19th and early 20th century ushered in an era of conservation of both habitat and wildlife.  Hailed as the "American Conservation movement", it was extensive and broadly embraced by the public.  The Library of Congress assembled a [collection](https://memory.loc.gov/ammem/amrvhtml/conshome.html) of materials from 1850 to 1920 that, when narrowed to just Congressional and Presidential actions, consisted of "140 Federal statutes and Congressional resolutions, 34 additional legislative documents, excerpts from the Congressional Globe and the Congressional Record [and] 360 Presidential proclamations." (For more details on Legislative and Executive Branch action, see the frequency plot at \@ref(fig:plot-law-library-collection) and the table of bibliographic references with summary at \@ref(fig:library-of-congress-conservation-bib).) 
+The late 19th and early 20th century ushered in an era of conservation activism of both habitat and wildlife.  Hailed as the "American Conservation Movement", it was extensive in scope and widely embraced by the public.  The Library of Congress assembled a [collection](https://memory.loc.gov/ammem/amrvhtml/conshome.html) of significant materials from 1850 to 1920.  When narrowed to just Congressional and Presidential actions, the collection consisted of "140 Federal statutes and Congressional resolutions, 34 additional legislative documents, excerpts from the Congressional Globe and the Congressional Record [and] 360 Presidential proclamations." For more details on Legislative and Executive Branch action, see the table of bibliographic references with summary at \@ref(federal-action).) 
 
 ```{r plot-law-library-collection, fig.cap="Plot shows that a large portion of federal action occurred in the twenty years between 1900 and 1920. Data taken from the Library of Congress Evolution of the Conservation Movement [website.](http://memory.loc.gov/ammem/amrvhtml/conshome.html)", fig.align="center", out.width="65%", fig.topcaption = TRUE, warning=FALSE, message=FALSE}
 
@@ -119,25 +119,15 @@ plot_library_of_congress_bib_by_date_and_type()
 
 ```
 
-The subjects of the various federal actions included the acquisition of land to be set aside for national parks, the establishment of a national park service, irrigation of the arid lands of the West, the granting of railroad right-of-way through federal lands, the regulation of seal hunting and other fur bearing animals in the "District" of Alaska, the establishment of fish hatcheries, protection of trees on federal lands from the harvesting of pitch or turpentine, regulation of the sale and harvest of sponges from the Gulf of Mexico, the study of Texas oyster beds, the protection of migratory birds,  and the creation of a  commission on the construction and use of water power--among the many, many actions.
+The subjects of the various federal actions were diverse and, at times, ambitious.  They included the acquisition of land to be set aside for national parks, the establishment of a national park service, irrigation of the arid lands of the West, the granting of railroad right-of-way through federal lands, the regulation of seal hunting and other fur bearing animals in the "District" of Alaska, the establishment of fish hatcheries, protection of trees on federal lands from the harvesting of pitch or turpentine, regulation of the sale and harvest of sponges from the Gulf of Mexico, the study of Texas oyster beds, the protection of migratory birds,  and the creation of a  commission on the construction and use of water power. And there were hundreds of other initiatives.  Two  more federal enactments would have lasting and profound impact on the support of state conservation efforts in hunting:  specifically, the creation of the **U.S. Fish and Wildlife Service** and the **Pittman-Robertson Act**.
 
-Several federal enactments would have lasting and profound impact on state conservation efforts.  Speecifically, the creation of the **U.S. Fish and Wildlife Service, the Pittman-Robertson Act and the Dingell-Johnson Act**.
+Currently housed with the Department of the Interior, the history of the U.S. Fish and Wildlife Service (USFW) spans 150 years. It began as a merger between two agencies that were formed much earlier, during the period mentioned above.  The Office of the Commission of Fish and Fisheries (established 1871) was combined with the Bureau of the Biological Survey (established 1885).  Ultimately, the offices were consolidated withinn DOI in 1939 and renamed the "Fish and Wildlife Service".  The agency is crucial to state-level fish and wildlife agencies in that it acts as the "flow-through" entity for the administration of two important programs: the Pittman-Robertson Federal Aid in Wildlife Restoration Act (hunting) and the Dingell-Johnson Act (fishing). [@congressionalresearchserviceFishWildlifeService2018]
 
-Currently housed with the Department of the Interior, the history of the U.S. Fish and Wildlife Service (FWS) spans 150 years. It began as a merger between two agencies that were formed much earlier, during the period mentioned above.  The Office of the Commission of Fish and Fisheries (established 1871) was combined with the Bureau of the Biological Survey (established 1885).  Ultimately, the offices were consolidated withinn DOI in 1939 and renamed the "Fish and Wildlife Service".  The agency is crucial to state-level fish and wildlife agencies in that it acts as the "flow-through" entity for the administration of two important programs: the Pittman-Robertson Federal Aid in Wildlife Restoration Act (hunting) and the Dingell-Johnson Act (fishing).
+In 1937, the Pittman–Robertson Federal Aid in Wildlife Restoration Act became law, providing funding for state agencies to carry out  conservation efforts. The Pittman–Robertson Act took over a preëxisting 11% excise tax on firearms and ammunition. Instead of going into the U.S. Treasury as it had done in the past, the money generated by the tax is instead given to the Secretary of the Interior to distribute to the states via the Federal Aid to Wildlife Fund. This topic will be discussed in section The Act is widely credited for restoring the populations of white-tailed deer, wild turkeys and wood ducks. Other animals like American black bears, elk, and cougars have expanded their ranges. The act will be discussed in greater detail in section \@ref(federal-taxes)  Due to the success of the Pittman–Robertson Act, a similar act was proposed for the protection of fish species, titled his act was titled the Federal Aid in Sports Fish Restoration Act. 
 
+## States' Role in Conservation
 
-
-
-
-Funding of state conservation efforts through 
-
-Finally in 1937, the Pittman–Robertson Federal Aid in Wildlife Restoration Act became law, providing funding for state agencies to carry out  conservation efforts. The Pittman–Robertson Act took over a preëxisting 11% excise tax on firearms and ammunition. Instead of going into the U.S. Treasury as it had done in the past, the money generated by the tax is instead given to the Secretary of the Interior to distribute to the states via the Federal Aid to Wildlife Fund. This topic will be discussed in section The Act is widely credited for restoring the populations of white-tailed deer, wild turkeys and wood ducks. Other animals like American black bears, elk, and cougars have expanded their ranges. The act will be discussed in greater detail in section \@ref(federal-taxes)
-
-Due to the success of the Pittman–Robertson Act, a similar act was proposed for the protection of fish species, titled his act was titled the Federal Aid in Sports Fish Restoration Act. 
-
-## State Role in Conservation
-
-Wildlife management is divided between the federal government and individual states. States have primary responsibility as the trustees of wildlife due to the Public Trust Doctrine, except where the Constitution provided for federal oversight.[@beanEvolutionNationalWildlife1997] "Regulated hunting and trapping have been cornerstones of wildlife management in the United States since the advent of wildlife conservation," write two prominent zoologists along these lines."[@bravermanConservationHuntingTill2015]
+States fish and wildlife departments play a key role in conservation.  Wildlife management is divided between the federal government and individual states. States have primary responsibility as the trustees of wildlife due to the Public Trust Doctrine, except where the Constitution provided for federal oversight.[@beanEvolutionNationalWildlife1997] "Regulated hunting and trapping have been cornerstones of wildlife management in the United States since the advent of wildlife conservation," write two prominent zoologists along these lines."[@bravermanConservationHuntingTill2015]
 
 ```{r state-conservation-funding-sources, fig.align="center", warning=FALSE, message=FALSE}
 file <- "./data_tidy/2017-01-01-survey-afw-conservation-funding-sources.csv"
@@ -195,15 +185,107 @@ support of the Institution is necessary, but not sufficient." [@jacobsonConserva
 
 Conservations efforts require long term, sustainable and dependable funding sources.  [@jacobsonConservationInstitution21st2010] User-based funding is declining and benefits a narrow group of constituents.  "Other funding options states have pursued include dedicated revenues from vehicle license plates, voluntary tax check-offs, and nonprofit foundations to accept financial gifts."[@jacobsonConservationInstitution21st2010]  These fees have been voluntary and negligible in their impact.  Missouri and Virginia were cited as having funding models that were "reliable, consistent and broad-based."  [@jacobsonConservationInstitution21st2010]
 
-### Federal Taxes{#federal-taxes}
+## Federal Taxes{#federal-taxes}
+
+The Federal Aid in Wildlife Restoration Act (16 U.S.C. §§669 et seq.), enacted in 1937 and now
+known as the Pittman-Robertson Wildlife Restoration Act, provides funding for states and
+territories to support wildlife restoration, conservation, and hunter education and safety
+programs.[@congressionalresearchservicePittmanRobertsonWildlifeRestoration2019]
+
+```{r usfw-wildlife-receipts, fig.align="center", out.width="65%", fig.cap="Gross Receipts Wildlife Restoration by Type.  Source:  [USFW](https://www.fws.gov/wsfrprograms/Subpages/GrantPrograms/WR/WR_ExciseTax.html)" }
+
+plot_receipts_and_deductions_usfw_wl_rest <- function(){
+      plot_usfw_wildlife_restoration_receipts <- function(){
+      #downloaded from https://www.fws.gov/wsfrprograms/Subpages/GrantPrograms/WR/WR-Receipts.pdf
+      #numbers in thousands
+      file <- "./data_pure/usfw/tabula-2020-12-05-wildlife_restoration_receipts.csv"
+      df.00 <- read.csv(file = file, header = T, nrows = 4, stringsAsFactors = F)
+      colnames(df.00) <- tolower(colnames(df.00))
+      df.00$entry <- "receipt"
+      df.01 <- gather(df.00, key = key, value = value, -entry, -gross.receipts)
+      names(df.01) <- c("tax", "entry", "year", "value")
+      df.01 <- dplyr::select(df.01, entry, year, tax, value)
+      #year
+      df.01$year <- gsub("fy\\.", "20", df.01$year)
+      df.01$year <-as.Date(df.01$year, format = "%Y")
+      #factor
+      df.01$tax <- gsub(" ", "", df.01$tax)
+      df.01$tax <- gsub("and", "-", df.01$tax)
+      df.01$tax <- tolower(df.01$tax)
+      df.01$tax <- factor(df.01$tax, levels = c("bows-arrows", "pistols-revolvers", "firearms", "ammunition"))
+      #value
+      df.01$value <- gsub(",", "", df.01$value)
+      df.01$value <- as.numeric(df.01$value)
+      df.01$value <- df.01$value * 1000
+      names(df.01)[grep("tax", names(df.01))] <- "key"
+      df.01
+}
+      plot_usfw_wildlife_restoration_deduct <- function(){
+            file <- "./data_pure/usfw/tabula-2020-12-05-wildlife_restoration_receipts.csv"
+            df.00 <- read.csv(file = file, header = T, skip = 5, stringsAsFactors = F)
+            df.00$entry <- "deducts"
+            colnames(df.00) <- tolower(colnames(df.00))
+            df.01 <- gather(df.00, key = key, value = value, -deductions, -entry)
+            names(df.01) <- c("deduction", "entry", "year", "value")
+            df.01 <- dplyr::select(df.01, entry, year, deduction, value)
+            #year
+            df.01$year <- gsub("fy\\.", "20", df.01$year)
+            df.01$year <- as.Date(df.01$year, format = "%Y")
+            #value
+            df.01$value <- gsub(",", "", df.01$value)
+            df.01$value <- as.integer(df.01$value)
+            df.01$value <- df.01$value * 1000
+            #other
+            names(df.01)[grep("deduction", names(df.01))] <- "key"
+            df.01$key <- tolower(df.01$key)
+            df.01$key <- gsub(" ", "-", df.01$key)
+            
+            
+            df.01
+      }
+      df.00 <- rbind(plot_usfw_wildlife_restoration_receipts(), 
+                     plot_usfw_wildlife_restoration_deduct()
+      )
+      df.00$entry <- factor(df.00$entry, levels = c("receipt", "deducts"))
+      #plot
+      p <- ggplot(data = df.00)
+      p <- p + geom_col(aes(x = entry, y = value, fill = key))
+      p <- p + facet_grid(. ~ year)
+      p <- p + scale_x_discrete(name = "")
+      p <- p + scale_y_continuous(name = "",
+                                  breaks = c(0, 250e6, 500e6, 750e6),
+                                  labels = c("$0", "$250m", "$500m", "$750m"))
+      p <- p + ggtitle("Gross Receipts Wildlife Restoration Fund by Type\n2007 - 2020")
+      p <- p + ggthemes::theme_stata(scheme = "s1color")
+      p
+      filename <- "./figs/gross_receipts_wildlife_restoration_fund_by_type_2007_2020.jpg"
+      ggsave(p, filename = filename, height = 5, width = 8, unit = "in", dpi = 300)
+      p
+}
+
+plot_receipts_and_deductions_usfw_wl_rest()
+```
+
+
+
 The Pittman-Robertson act directed that funds collected from the sale of firearms be deposited into the Federal Aid to Wildlife Restoration Fund. 
 -  a 10 percent tax on pistols and revolvers[@26USCS4181];
--  an 11 percent tax on bows, archery equipment,and long arms;
--  an inflation adjusted tax on arrow shafts, standing at 48 cents per shaft in 2014;
+-  an 11 percent tax on bows, archery equipment,and long arms[@26USCS4181]; and
+-  an inflation adjusted tax on arrow shafts, standing at 48 cents per shaft in 2014[@26USCS4161].
+
+Receipts from these taxes are deposited into the Federal Aid to Wildlife Restoration Fund. "The Pittman-Robertson Wildlife Restoration Act apportions and allocates funding for five distinct purposes:
+
+1. program administration (Section 4(a));
+2. Wildlife Restoration (Section 4(b));
+3. Basic Hunter Education and Safety (Section 4(c));
+4. Enhanced Hunter Education and Safety Grants (Section 10); and
+5. Multistate Conservation Grants (Section 11)."
+
+[@congressionalresearchservicePittmanRobertsonWildlifeRestoration2019] The funds directed toward wildlife restoration are apportioned according to forumula.  One-half of the apportionment is based on the ratio of the state's land mass relative to the land mass of the whole country.  The second half of the forumula apportions the funds based upon the number of state hunting license holders to the total number of hunting license holders. No state receives more than 5% of the apportionment or less than one-half of 1% of the apportionment.
 
 "Congress requires each state and U.S. territory to develop a State Wildlife Action Plan - a proactive, comprehensive conservation strategy which examines species health and recommends actions to conserve wildlife and vital habitat before they become more rare and costly to protect."[@allianceforamericasfishwildlifeUsAllianceAmerica: 2]
 
-"A national survey determined that each state needs an average of 26 million in new funding annually ($1.3 billion collectively) to e!ectively implement State Wildlife Action Plans to prevent species from becoming threatened or endangered."[@allianceforamericasfishwildlifeUsAllianceAmerica: 3] 
+"A national survey determined that each state needs an average of 26 million in new funding annually ($1.3 billion collectively) to efectively implement State Wildlife Action Plans to prevent species from becoming threatened or endangered."[@allianceforamericasfishwildlifeUsAllianceAmerica: 3] 
 
 "Current funding through State and Tribal Wildlife Grant Program funds only reaches a national total of 60 million on average, a shortfall of more than $1.2 billion annually."[@allianceforamericasfishwildlifeUsAllianceAmerica] 
 
@@ -726,9 +808,9 @@ knitr::include_graphics("./figs/annual_wildlife_restoration_funding_by_state_193
 [Directory of state F&W offices](https://www.fws.gov/info/pocketguide/sfwacontacts.html)
 [State and Territorial Fish and Wildlife Offices](https://www.fws.gov/offices/statelinks.html)
 
-## Federal Action in Conservation 1850 - 1920
+## Federal Action in Conservation 1850 - 1920 {#federal-action}
 
-The Library of Congress compiled a wide ranging collection of materials documenting the conservation movement. The collection, entitled "The Evolution of the Conservation Era 1850 to 1920", can be found on its [website](http://memory.loc.gov/ammem/amrvhtml/conshome.html). The Law Library of the Library of Congress contributed 555 separate documents for the collection.  Those materials are referenced here and serve as the basis for both the plot and the table below.  
+The Library of Congress compiled a wide ranging collection of materials documenting the conservation movement. The collection, entitled "The Evolution of the Conservation Era 1850 to 1920", can be found on its [website](http://memory.loc.gov/ammem/amrvhtml/conshome.html). The Law Library of the Library of Congress contributed 555 separate documents for the collection. Those materials are referenced here and serve as the basis for both the plot and the table below.  
 
 
 
