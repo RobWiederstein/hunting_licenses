@@ -266,8 +266,6 @@ plot_receipts_and_deductions_usfw_wl_rest <- function(){
 plot_receipts_and_deductions_usfw_wl_rest()
 ```
 
-
-
 The Pittman-Robertson act directed that funds collected from the sale of firearms be deposited into the Federal Aid to Wildlife Restoration Fund. 
 -  a 10 percent tax on pistols and revolvers[@26USCS4181];
 -  an 11 percent tax on bows, archery equipment,and long arms[@26USCS4181]; and
@@ -282,6 +280,48 @@ Receipts from these taxes are deposited into the Federal Aid to Wildlife Restora
 5. Multistate Conservation Grants (Section 11)."
 
 [@congressionalresearchservicePittmanRobertsonWildlifeRestoration2019] The funds directed toward wildlife restoration are apportioned according to forumula.  One-half of the apportionment is based on the ratio of the state's land mass relative to the land mass of the whole country.  The second half of the forumula apportions the funds based upon the number of state hunting license holders to the total number of hunting license holders. No state receives more than 5% of the apportionment or less than one-half of 1% of the apportionment.
+
+```{r sankey_pr_funds, fig.align="center", fig.cap="Figure shows the flow of tax revenue into the wildlife restoraton fund and the flows out to the different states.", message=F, warning=F}
+
+#pittman-robertson fund flow
+path <-  "./data_tidy/2020-12-7-pittman-roberson-fund-flow.xlsx"
+
+# Library
+library(networkD3)
+library(dplyr)
+
+# A connection data frame is a list of flows with intensity for each flow
+links <- readxl::read_xlsx(path = path)
+#colnames(links)[4:5] <- gsub("Id", "ID", colnames(links[4:5]))
+
+# From these flows we need to create a node data frame: it lists every entities involved in the flow
+nodes <- data.frame(
+      name=c(as.character(links$source), 
+             as.character(links$target)) %>% unique()
+)
+
+# With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
+links$IDsource <- match(links$source, nodes$name)-1 
+links$IDtarget <- match(links$target, nodes$name)-1
+
+# Make the Network
+p <- sankeyNetwork(Links = links, 
+                   Nodes = nodes,
+                   Source = "IDsource",
+                   Target = "IDtarget",
+                   Value = "value", 
+                   NodeID = "name", 
+                   sinksRight=FALSE,
+                   fontSize = 12,
+                   nodeWidth = 20,
+                   nodePadding = 100,
+                   units = "m",
+                   width = 800,
+                   height = 500)
+p
+
+```
+
 
 "Congress requires each state and U.S. territory to develop a State Wildlife Action Plan - a proactive, comprehensive conservation strategy which examines species health and recommends actions to conserve wildlife and vital habitat before they become more rare and costly to protect."[@allianceforamericasfishwildlifeUsAllianceAmerica: 2]
 
