@@ -187,15 +187,13 @@ Conservations efforts require long term, sustainable and dependable funding sour
 
 ## Federal Aid in Wildlife Restoration{#federal-aid}
 
-The Federal Aid in Wildlife Restoration Act (16 U.S.C. §§669 et seq.), enacted in 1937 and now
-known as the Pittman-Robertson Wildlife Restoration Act, provides funding for states and
-territories to support wildlife restoration, conservation, and hunter education and safety
-programs.[@congressionalresearchservicePittmanRobertsonWildlifeRestoration2019]
+The Federal Aid in Wildlife Restoration Act (16 U.S.C. §§669 et seq.), enacted in 1937 and now known as the Pittman-Robertson Wildlife Restoration Act, provides funding for states and territories to support wildlife restoration, conservation, and hunter education and safety programs.[@congressionalresearchservicePittmanRobertsonWildlifeRestoration2019]
 
-The Pittman-Robertson act directed that funds collected from the sale of firearms be deposited into the Federal Aid to Wildlife Restoration Fund. 
--  a 10 percent tax on pistols and revolvers[@26USCS4181];
--  an 11 percent tax on bows, archery equipment,and long arms[@26USCS4181]; and
--  an inflation adjusted tax on arrow shafts, standing at 48 cents per shaft in 2014[@26USCS4161].
+The Pittman-Robertson Act directed that funds collected from the sale of firearms be deposited into the Federal Aid to Wildlife Restoration Fund which has been expanded over the years to include other equipment as well.  Specifically, the taxes are: 
+
+- a 10 percent tax on pistols and revolvers[@26USCS4181];
+- an 11 percent tax on archery equipment and a per shaft arrow tax; and
+- an 11 percent tax on firearms and ammunition.
 
 Receipts from these taxes are deposited into the Federal Aid to Wildlife Restoration Fund. "The Pittman-Robertson Wildlife Restoration Act apportions and allocates funding for five distinct purposes:
 
@@ -205,7 +203,11 @@ Receipts from these taxes are deposited into the Federal Aid to Wildlife Restora
 4. Enhanced Hunter Education and Safety Grants (Section 10); and
 5. Multistate Conservation Grants (Section 11)."
 
-[@congressionalresearchservicePittmanRobertsonWildlifeRestoration2019] The funds directed toward wildlife restoration are apportioned according to forumula.  One-half of the apportionment is based on the ratio of the state's land mass relative to the land mass of the whole country.  The second half of the forumula apportions the funds based upon the number of state hunting license holders to the total number of hunting license holders. No state receives more than 5% of the apportionment or less than one-half of 1% of the apportionment.
+[@congressionalresearchservicePittmanRobertsonWildlifeRestoration2019] Three of the five purposes have funding allocated based on a formula.  Wildlife restoration funds are apportioned with one-half of the apportionment based on the ratio of the state's land mass relative to the land mass of the whole country.  The second half of the forumula apportions the funds based upon the number of state hunting license holders to the total number of hunting license holders. Hunter education and enhanced hunter education use a different forumula.
+
+The states that receive the most funds are large with lots of hunters relative to the rest of the country.  And states that are small, with few hunters relative to the rest of the states, receive the least money.  No state receives more than 5% of the apportionment or less than one-half of 1% of the apportionment. In 2020, Alaska and Texas received the highest apportionment of wildlife restoration funds at \$23.6 million each or 5% of the apportionment.  Seven states received the statutory minimum apportionment of 1% which equated to \$2.4 million.  The states receiving the smallest portion of wildlife restoration funds were Connecticut, Delaware, Massachusetts, New Hampshire, New Jersey, Rhode Island, and Vermont.
+
+The other two purposes are not subject to apportionment:  the multistate grants and the administration fee to the USFW.
 
 ```{r sankey-pr-funds, fig.align="center", fig.topcaption=TRUE, fig.cap="Diagram illustrates the flow of money into the Wildlife Restoration Fund and then how it is distributed to the states.  Revenues were from FY 2019 and the apportionment was for FY 2020.  Only three states--Alaska, Texas, and Alabama--were included.",  message=F, warning=F}
 
