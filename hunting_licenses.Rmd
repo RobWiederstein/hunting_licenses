@@ -18,7 +18,7 @@ output:
     highlight: pygments
     fig_caption: true
 bibliography: references.bib
-nocite: '@*'
+#nocite: '@*'
 ---
 
 ```{r setup, include=FALSE, echo=FALSE}
