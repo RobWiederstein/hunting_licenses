@@ -51,6 +51,7 @@ options(knitr.table.format = "html")
 
 ```
 
+
 # Question
 
 Hunting as a pastime is declining in the United States.^[The views, analysis and conclusions presented within this paper represent the author's alone and not of any other person, organization or government entity. While I have made every reasonable effort to ensure that the information in this article was correct, it will nonetheless contain errors, inaccuracies and inconsistencies.  It is a working paper subject to revision without notice as additional information becomes available. Any liability is disclaimd as to any party for any loss, damage, or disruption caused by errors or omissions, whether such errors or omissions result from negligence, accident, or any other cause. The author(s) received no financial support for the research, authorship, and/or publication of this article.] Its prolonged slump and projected decline is significant because license fees and taxes fund wildlife conservation efforts.   This "user-play, user-pay" funding system--a model replicated across the globe--is jeopardizing conservation efforts as hunting declines.  [@rottDeclineHuntersThreatens2018]Recent legislative proposal at the federal level have attempted to diversify funding sources in response.  The question for consideration is whether hunting  declined from 1960 to 2020, how much agreement exists between available data sources, and which states have been impacted.
@@ -831,6 +832,23 @@ knitr::include_graphics("./figs/annual_wildlife_restoration_funding_by_state_193
 
 [Directory of state F&W offices](https://www.fws.gov/info/pocketguide/sfwacontacts.html)
 [State and Territorial Fish and Wildlife Offices](https://www.fws.gov/offices/statelinks.html)
+
+```{r table-fish-wildlife-metrics, warning=FALSE, message=FALSE}
+#install.packages('webshot')
+library('webshot')
+webshot::install_phantomjs()
+file <- "./data_tidy/appendix_state_fish_wildlife_metrics.csv"
+colClasses <- c("character", "character", "numeric")
+df.00 <- read.csv(file = file, colClasses = colClasses, header = T)
+
+DT::datatable(df.00, escape = FALSE, 
+              style = 'bootstrap', 
+              class = "table table-striped compact", 
+              rownames = FALSE,
+              caption = "Table of State-level Fish & Wildlife Conservation Metrics"
+              )
+```
+
 
 ## Federal Action in Conservation 1850 - 1920 {#federal-action}
 
