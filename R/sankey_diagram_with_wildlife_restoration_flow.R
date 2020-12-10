@@ -1,8 +1,13 @@
- scrub_file <- function(){
+create_sankey_plot_for_pittman_robertson_funds_to_states <- function(){# A connection data frame is a list of flows with intensity for each flow
+plot_revenue_to_apportionment <- function(){
+   path <-  "./data_tidy/2020-12-7-pittman-roberson-fund-flow.xlsx"
+   df  <- readxl::read_xlsx(path = path)
+   }
+plot_apportionment_to_states_top_bottom_5 <- function(){
       file <- "./data_pure/usfw/tabula-WRFinalApportionment2020.csv"
       df.00 <- read.csv(file = file, skip = 2, stringsAsFactors = F)
       #colnames
-      colnames(df.00) <- c("state", "wildlife", "hunter", "enhanced", "total")
+      colnames(df.00) <- c("state", "wildlife", "hunter ed", "enhanced", "total")
       #init caps
       df.00$state <- stringr::str_to_title(df.00$state)
       #omit total
@@ -22,31 +27,52 @@
       #merge for abbs
       df.state <- data.frame(state = state.name, abb = state.abb, stringsAsFactors = F)
       df.02 <- merge(df.01, df.state)
-      #dplyr::filter(df.02, key == "wildlife") %>% arrange(value)
+      #select & rename
+      df.02 <- dplyr::select(df.02, key, abb, value)
+      names(df.02) <- c("source", "target", "value")
+      #convert to millions
+      df.02$value <- round((df.02$value / 1000000), 2)
+      top.5.states <- 
+         df.02 %>% 
+         dplyr::filter(source == "wildlife") %>% 
+         arrange(-value) %>% 
+         slice_head(n = 5) %>%
+         select(target) %>%
+         unlist()
+      bot.5.states <- 
+         df.02 %>% 
+         dplyr::filter(source == "wildlife") %>% 
+         arrange(-value) %>% 
+         slice_tail(n = 5) %>%
+         select(target) %>%
+         unlist()
       
-      #take df.02 and 
-      #source column
-      df.02$source <- "wildlife fund"
-      df.02 <- dplyr::select(df.02, source, key, abb, value)
-      #summarize
-      df.03 <-    df.02 %>%
-                  filter(key == "wildlife") %>%
-                  arrange(value)
-      df.04 <- rbind(head(df.03, 3), tail(df.03, 3))
-      df.04 <- dplyr::select(df.04, key, abb, value)
-      colnames(df.04)<- c("source", "target", "value")
-      df.04
- }
- links <- scrub_file()
- links$value <- round((links$value / 10e5), 2)
- # From these flows we need to create a node data frame: it lists every entities involved in the flow
- nodes <- data.frame(
+      dplyr::filter(df.02, target %in% (c(bot.5.states, top.5.states)))
+      
+}
+df <- rbind(plot_revenue_to_apportionment(),
+            plot_apportionment_to_states_top_bottom_5())
+# load libraries for Sankey
+library(networkD3)
+library(dplyr)
+#create links between the source and target.  Include a value
+links <- df 
+# From these flows we need to create a node data frame: it lists 
+#every entities involved in the flow
+nodes <- data.frame(
        name=c(as.character(links$source), 
               as.character(links$target)) %>% unique()
  )
+# Add a 'group' column to the nodes data frame:
+nodes$group <- "a"
+nodes$group[c(8, 13:22)] <- "b"
+nodes$group <- as.factor(nodes$group)
  #With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
  links$IDsource <- match(links$source, nodes$name)-1 
  links$IDtarget <- match(links$target, nodes$name)-1
+ # Give a color for each group:
+ my_color <- 'd3.scaleOrdinal() .domain(["a", "b"]) .range(["#b9c8fb", "#ffa600"])'
+ 
  # Make the Network
  p <- sankeyNetwork(Links = links, 
                     Nodes = nodes,
@@ -57,9 +83,12 @@
                     sinksRight=FALSE,
                     fontSize = 12,
                     nodeWidth = 20,
-                    nodePadding = 10,
+                    nodePadding = 40,
                     units = "m",
                     width = 800,
-                    height = 500)
+                    height = 500, 
+                    colourScale=my_color,
+                    NodeGroup = "group")
  p
- 
+}
+create_sankey_plot_for_pittman_robertson_funds_to_states()

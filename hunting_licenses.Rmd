@@ -209,56 +209,112 @@ The states that receive the most funds are large with lots of hunters relative t
 
 The other two purposes are not subject to apportionment:  the multistate grants and the administration fee to the USFW.
 
-```{r sankey-pr-funds, fig.align="center", fig.topcaption=TRUE, fig.cap="Diagram illustrates the flow of money into the Wildlife Restoration Fund and then how it is distributed to the states.  Revenues were from FY 2019 and the apportionment was for FY 2020.  Only three states--Alaska, Texas, and Alabama--were included.",  message=F, warning=F}
-
-#pittman-robertson fund flow
-path <-  "./data_tidy/2020-12-7-pittman-roberson-fund-flow.xlsx"
-
-# Library
+```{r sankey-pr-funds, fig.align="center", fig.topcaption=TRUE, fig.cap="Diagram illustrates the flow of money into the Wildlife Restoration Fund and then how it is distributed to the states.  Revenues were from FY 2019 and the apportionment was for FY 2020.",  message=F, warning=F}
+create_sankey_plot_for_pittman_robertson_funds_to_states <- function(){# A connection data frame is a list of flows with intensity for each flow
+plot_revenue_to_apportionment <- function(){
+   path <-  "./data_tidy/2020-12-7-pittman-roberson-fund-flow.xlsx"
+   df  <- readxl::read_xlsx(path = path)
+   }
+plot_apportionment_to_states_top_bottom_5 <- function(){
+      file <- "./data_pure/usfw/tabula-WRFinalApportionment2020.csv"
+      df.00 <- read.csv(file = file, skip = 2, stringsAsFactors = F)
+      #colnames
+      colnames(df.00) <- c("state", "wildlife", "hunter ed", "enhanced", "total")
+      #init caps
+      df.00$state <- stringr::str_to_title(df.00$state)
+      #omit total
+      df.00 <- df.00[, 1:4]
+      #omit territories and D.C.
+      dc.terr <- c("American Samoa", "District Of Columbia", "Guam", 
+                   "N. Mariana Islands", "Puerto Rico", "Virgin Islands")
+      df.00 <- df.00[-unlist(sapply(dc.terr, grep, df.00$state)), ]
+      #convert to values
+      convert.cols <- grep("wildlife|hunter|enhanced", colnames(df.00))
+      df.00[, convert.cols] <- apply(df.00[, convert.cols], 2, function(x) gsub("\\$|,", "", x))
+      df.00[, convert.cols] <- apply(df.00[, convert.cols], 2, function(x) as.numeric(x))
+      #fix connecticut
+      df.00$state[grep("Conn", df.00$state)] <- "Connecticut"
+      #convert to long
+      df.01 <- gather(df.00, key=key, value = value, -state)
+      #merge for abbs
+      df.state <- data.frame(state = state.name, abb = state.abb, stringsAsFactors = F)
+      df.02 <- merge(df.01, df.state)
+      #select & rename
+      df.02 <- dplyr::select(df.02, key, abb, value)
+      names(df.02) <- c("source", "target", "value")
+      #convert to millions
+      df.02$value <- round((df.02$value / 1000000), 2)
+      top.5.states <- 
+         df.02 %>% 
+         dplyr::filter(source == "wildlife") %>% 
+         arrange(-value) %>% 
+         slice_head(n = 5) %>%
+         select(target) %>%
+         unlist()
+      bot.5.states <- 
+         df.02 %>% 
+         dplyr::filter(source == "wildlife") %>% 
+         arrange(-value) %>% 
+         slice_tail(n = 5) %>%
+         select(target) %>%
+         unlist()
+      
+      dplyr::filter(df.02, target %in% (c(bot.5.states, top.5.states)))
+      
+}
+df <- rbind(plot_revenue_to_apportionment(),
+            plot_apportionment_to_states_top_bottom_5())
+# load libraries for Sankey
 library(networkD3)
 library(dplyr)
-
-# A connection data frame is a list of flows with intensity for each flow
-links <- readxl::read_xlsx(path = path)
-#colnames(links)[4:5] <- gsub("Id", "ID", colnames(links[4:5]))
-
-# From these flows we need to create a node data frame: it lists every entities involved in the flow
+#create links between the source and target.  Include a value
+links <- df 
+# From these flows we need to create a node data frame: it lists 
+#every entities involved in the flow
 nodes <- data.frame(
-      name=c(as.character(links$source), 
-             as.character(links$target)) %>% unique()
-)
+       name=c(as.character(links$source), 
+              as.character(links$target)) %>% unique()
+ )
+# Add a 'group' column to the nodes data frame:
+nodes$group <- "a"
+nodes$group[c(8, 13:22)] <- "b"
+nodes$group <- as.factor(nodes$group)
+ #With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
+ links$IDsource <- match(links$source, nodes$name)-1 
+ links$IDtarget <- match(links$target, nodes$name)-1
+ # Give a color for each group:
+ my_color <- 'd3.scaleOrdinal() .domain(["a", "b"]) .range(["#b9c8fb", "#ffa600"])'
+ 
+ # Make the Network
+ p <- sankeyNetwork(Links = links, 
+                    Nodes = nodes,
+                    Source = "IDsource",
+                    Target = "IDtarget",
+                    Value = "value", 
+                    NodeID = "name", 
+                    sinksRight=FALSE,
+                    fontSize = 14,
+                    nodeWidth = 20,
+                    nodePadding = 40,
+                    units = "m",
+                    width = 800,
+                    height = 500, 
+                    colourScale=my_color,
+                    NodeGroup = "group")
+ p
+}
+create_sankey_plot_for_pittman_robertson_funds_to_states()
 
-# With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
-links$IDsource <- match(links$source, nodes$name)-1 
-links$IDtarget <- match(links$target, nodes$name)-1
-
-# Make the Network
-p <- sankeyNetwork(Links = links, 
-                   Nodes = nodes,
-                   Source = "IDsource",
-                   Target = "IDtarget",
-                   Value = "value", 
-                   NodeID = "name", 
-                   sinksRight=FALSE,
-                   fontSize = 12,
-                   nodeWidth = 20,
-                   nodePadding = 100,
-                   units = "m",
-                   width = 800,
-                   height = 500)
-p
 
 ```
 
+## Recent Federal Developments
 
 "Congress requires each state and U.S. territory to develop a State Wildlife Action Plan - a proactive, comprehensive conservation strategy which examines species health and recommends actions to conserve wildlife and vital habitat before they become more rare and costly to protect."[@allianceforamericasfishwildlifeUsAllianceAmerica: 2]
 
 "A national survey determined that each state needs an average of 26 million in new funding annually ($1.3 billion collectively) to efectively implement State Wildlife Action Plans to prevent species from becoming threatened or endangered."[@allianceforamericasfishwildlifeUsAllianceAmerica: 3] 
 
 "Current funding through State and Tribal Wildlife Grant Program funds only reaches a national total of 60 million on average, a shortfall of more than $1.2 billion annually."[@allianceforamericasfishwildlifeUsAllianceAmerica] 
-
-## Recent Federal Developments
-
 "The bipartisan Recovering America's Wildlife Act establishes a 21st century funding model for the proactive conservation of fish and wildlife. The bill will redirect 1.3 billion in existing revenues to state fish and wildlife agencies to implement their science-driven wildlife action plans, and an additional $97.5 million to tribal wildlife managers to conserve species on tribal."[@allianceforamericasfishwildlifeUsAllianceAmerica] 
 
 States would be required to provide at least 25% in nonfederal matching funds. The source of match can be monetary or in-kind contributions originating from state or local governments or private entities such as conservation organizations, universities, businesses, private landowners, or volunteers." [@allianceforamericasfishwildlifeUsAllianceAmerica: 3]
