@@ -311,6 +311,8 @@ create_sankey_plot_for_pittman_robertson_funds_to_states()
 
 ## Recent Federal Developments
 
+National conservation advocates have identified the funding challenges and are urging the adoption of a new, broad-based funding strategy.
+
 "Congress requires each state and U.S. territory to develop a State Wildlife Action Plan - a proactive, comprehensive conservation strategy which examines species health and recommends actions to conserve wildlife and vital habitat before they become more rare and costly to protect."[@allianceforamericasfishwildlifeUsAllianceAmerica: 2]
 
 "A national survey determined that each state needs an average of 26 million in new funding annually ($1.3 billion collectively) to efectively implement State Wildlife Action Plans to prevent species from becoming threatened or endangered."[@allianceforamericasfishwildlifeUsAllianceAmerica: 3] 
