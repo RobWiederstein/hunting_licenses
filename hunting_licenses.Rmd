@@ -384,6 +384,20 @@ kbl(caption = "Computation of FHWAR Participation Rate\n 1955 - 2016",
 
 ## General
 
+Household surveys represent a better way to measure outdoor activity than "on-site" metrics. "On-site" metrics were the earliest of metrics and historically consisted of the number of visitors to a park.  But household surveys are a better method for determining participation rates. However, the usefulness of the surveys in recreation planning and management suffer from methodological and conceptual issues. [@manningProjectMUSEStudies2011]  First, these studies are often interpreted in the context of demand for recreation activities.  [@manningProjectMUSEStudies2011]  The studies failed to take into account the existing recreation opportunities and the possible substitution of alternative outdoor activities.  "It is quite likely that high participation rates will correlate abundant opportunities, especially when these opportunities are priced at nominal levels, as it is trational in the public sector." [@manningProjectMUSEStudies2011]  Two studies found statistically significant effects on participation rates that were lined to the *supply* of recreation opportunities.
+
+The second problem with household surveys of outdoor recreation was their focus on the underlying activity (hunting and fishing) than the meaningfulness of the outdoor experience.  In other words, early studies focussed too much on the "what" and not enough on the "why of the experience.  A person's participation in outdoor recreation may have many motivations for participating in an activity, but they may be met by a different activity as well.  [@manningProjectMUSEStudies2011]
+
+Finally, household surveys of outdoor recreation also have a number of methodological flaws as well.  The overall lack of consistentcy has made comparisons across time difficult.  They include the irregular administration of surveys, inconsistent inclusion of activities, definitional problems (walking vs. hiking, for example), varying data collection techniques (phone surveys vs. personal interviews), "sample size, response rates, age of respondents, recall period and question wording and sequence." [@manningProjectMUSEStudies2011]
+
+At least two studies have examined participation rates as reported by different organizations and different activities.
+
+Bevins and Wilcox 1979
+
+Stynes, et. al 1980.
+
+Nationwide Recreation Surveys (NRS) renamed the National Survey on Recreation and the Environment (NSRE) have attempted to maintain consistency in research methods over the time span of the survey 1960 through 2009.
+
 The analysis relied upon the statistical programming language known as `R`. [@rcoreteamProjectStatisticalComputing2020] The plots were graphed with `ggplot2`.[@wickhamGgplot2ElegantGraphics2016] The data from the sources above were combined into a single, wide dataframe and then converted into long format.  The total number of observations in the dataframe was `r nrow(df.00)` and the number of variables or columns was `r ncol(df.00)`. The column names "key" and "value" are the default labels in the `tidyr` package. [@wickhamTidyrTidyMessy2020] Consistent with good data practice, each row is an observation and each column is a variable.  [@wickhamTidyData2014] The top 5 rows of the dataframe are shown below for illustrative purposes.
 
 ```{r head-dataframe, echo=FALSE}
